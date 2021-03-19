@@ -27,13 +27,8 @@ class AssetTypeProperty(models.Model):
 
 class AssetTypeSymbol(models.Model):
     type = models.ForeignKey(AssetType, on_delete=models.CASCADE)
-<<<<<<< HEAD
-    symbol = models.ImageField(upload_to='img/')
-=======
     symbol = models.ImageField(upload_to='symbol_img/')
->>>>>>> 1c9e3dd555a2b238f5b4364cc5f57cd72275e862
     description = models.CharField(max_length=256, null=True)
-
 
 class Office(models.Model):
     department = models.CharField(max_length=75)

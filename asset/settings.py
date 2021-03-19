@@ -80,12 +80,8 @@ WSGI_APPLICATION = 'asset.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'asset_mng',
-        'USER': 'postgres',
-        'PASSWORD': '123',
-        'HOST': '127.0.0.1',
-        'PORT': '5432'
+        'ENGINE': 'django.contrib.gis.db.backends.spatialite',
+        'NAME': 'C:/Users/Alpkan/Desktop/gp1/db/asset_mng.db',
     }
 }
 
