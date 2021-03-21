@@ -14,9 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
 
+from pages.views import home_view 
+from geo.views import cesiumAsset
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', home_view, name='home'), #view.py def adı
+    path('home/', home_view, name='home'), #üsttekinin aynısını böyle yazınca http://127.0.0.1:8000/home adresinde üsttekinin aynısı çıkacak
+    path('assets/', cesiumAsset)
+
 ]

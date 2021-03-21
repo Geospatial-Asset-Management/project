@@ -35,21 +35,15 @@
     	});
 
       var dataSource = Cesium.GeoJsonDataSource.load(
-        "/static/Cesium/Apps/SampleData/simplestyles.geojson"
+        "/asset/geo/"
+        //"/static/Cesium/Apps/SampleData/simplestyles.geojson"
     	);
     	viewer.dataSources.add(dataSource);
     	viewer.zoomTo(dataSource); 
     	
     	
     	// selection handler how to?
-    	//
-    	//    	var dataSource = Cesium.GeoJsonDataSource.load(
-    	//  "/cntry/Ankara"
-    	//);
-    	//viewer.dataSources.add(dataSource);
-    	//viewer.zoomTo(dataSource); 
 
-    	// 
     </script>
   </body>
 </html>

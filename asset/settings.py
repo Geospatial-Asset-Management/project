@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'm9=wcf#nl-j$+yrgcr103_4wme5311v6k&8ha1*=x_oy!dunl='
+SECRET_KEY = 'm9=wcf#nl-j$+yrgcr103_4wme531afaf1211v6k&8ha1*=x_oy!dunl='
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'crt_ast',
     'django_extensions',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,9 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #3rd
+    'crt_ast',
+    'pages',
     'django.contrib.gis',
     'schema_graph',
-    'django-dia'
+    'django-dia',
 ]
 
 MIDDLEWARE = [
@@ -59,7 +61,7 @@ ROOT_URLCONF = 'asset.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

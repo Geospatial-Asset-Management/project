@@ -61,9 +61,9 @@ class Asset(models.Model):
     dataEntryStaff_id = models.ForeignKey(Staff, on_delete=models.CASCADE)
     name = models.CharField(max_length=30)
     # BaseSpatialField.srid()
-    geom = models.GeometryCollectionField()
+    geom = models.GeometryField()
     elevation = models.IntegerField(null=True)
-    photo = models.ImageField(null=True, upload_to='asset_photo/')
+    photo = models.ImageField(null=True, upload_to='templates/images/asset_photo/')
     comissioning_date = models.DateField(null=True)
     decommission_date = models.DateField(null=True)
 
@@ -74,6 +74,8 @@ class Asset(models.Model):
 
     description = models.CharField(max_length=256, null=True)
 
+    #markersymbol = models.CharField(max_length=1, null=True) 
+    #markercolor = models.CharField(max_length=7, null=True) 
 
 class AssetPropertyValue(models.Model):
     property = models.ForeignKey(AssetTypeProperty, on_delete=models.CASCADE)
