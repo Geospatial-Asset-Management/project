@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'asset.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.spatialite',
-        'NAME': 'C:/Users/Alpkan/Desktop/gp1/db/asset_mng.db',
+        'NAME': 'db/asset_mng.db',
     }
 }
 
