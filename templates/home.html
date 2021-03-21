@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Use correct character set. -->
+    <meta charset="utf-8" />
+    <!-- Tell IE to use the latest, best version. -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Make the application on mobile take up the full browser screen and disable user scaling. -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"
+    />
+    <title>Geospatial Asset Management</title>
+    <script src="/static/Cesium/Build/Cesium/Cesium.js"></script>
+    <style>
+      @import url(/static/Cesium/Build/Cesium/Widgets/widgets.css);
+      html,
+      body,
+      #cesiumContainer {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="cesiumContainer"></div>
+    <script>
+
+
+    var viewer = new Cesium.Viewer("cesiumContainer", {
+      sceneMode: Cesium.SceneMode.SCENE3D,
+      timeline: false,
+      animation: false,
+    });
+
+    viewer.dataSources.add(Cesium.GeoJsonDataSource.load('../assets', {
+      markerSize: 50,
+      markerColor: Cesium.Color.YELLOW,
+      markerSymbol: 'A'
+    }));
+
+    var dataSource = Cesium.GeoJsonDataSource.load(
+      "/assets"
+    );
+    viewer.dataSources.add(dataSource);
+    viewer.zoomTo(dataSource);
+
+
+
+
+    	
+    	
+    	// selection handler how to?
+
+    </script>
+  </body>
+</html>
