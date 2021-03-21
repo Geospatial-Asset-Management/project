@@ -54,7 +54,7 @@ class Asset(models.Model):
     type = models.ForeignKey(AssetType, on_delete=models.CASCADE)
     name = models.CharField(max_length=30)
     # BaseSpatialField.srid()
-    geom = models.GeometryField(dim=True)
+    geom = models.GeometryField()
     elevation = models.IntegerField(null=True, blank=True)
     photo = models.ImageField(blank=True, null=True, upload_to='asset_photo/')
     comissioning_date = models.DateField(null=True, blank=True)
