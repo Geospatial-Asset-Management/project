@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'crt_ast',
+    'pages',
     'django_extensions',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -38,12 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #3rd
-    'crt_ast',
-    'pages',
     'django.contrib.gis',
     'schema_graph',
-    'django-dia',
+    'django-dia'
 ]
 
 MIDDLEWARE = [
