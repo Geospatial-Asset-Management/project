@@ -55,6 +55,8 @@ class Asset(models.Model):
     name = models.CharField(max_length=30)
     # BaseSpatialField.srid()
     geom = models.GeometryField()
+    #lat = models.IntegerField(null=True, blank=True)
+    #lon = models.IntegerField(null=True, blank=True)
     elevation = models.IntegerField(null=True, blank=True)
     photo = models.ImageField(blank=True, null=True, upload_to='asset_photo/')
     comissioning_date = models.DateField(null=True, blank=True)
@@ -67,8 +69,9 @@ class Asset(models.Model):
 
     description = models.CharField(max_length=256, null=True, blank=True)
 
-    #markersymbol = models.CharField(max_length=1, null=True) 
-    #markercolor = models.CharField(max_length=7, null=True)
+    markersize= models.CharField(max_length=7, null=True)
+    markercolor = models.CharField(max_length=7, null=True)
+    markersymbol = models.CharField(max_length=1, null=True) 
 
     def __str__(self, *args, **kwargs):
     	return "{}, Type: {}".format(self.name, self.type.name)

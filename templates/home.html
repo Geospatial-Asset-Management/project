@@ -11,9 +11,9 @@
       content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"
     />
     <title>Geospatial Asset Management</title>
-    <script src="/static/Cesium/Build/Cesium/Cesium.js"></script>
+    <script src="/static/Cesium/Cesium.js"></script>
     <style>
-      @import url(/static/Cesium/Build/Cesium/Widgets/widgets.css);
+      @import url(/static/Cesium/Widgets/widgets.css);
       html,
       body,
       #cesiumContainer {
@@ -30,28 +30,18 @@
     <script>
 
 
-    var viewer = new Cesium.Viewer("cesiumContainer", {
-      sceneMode: Cesium.SceneMode.SCENE3D,
-      timeline: false,
-      animation: false,
-    });
+      var viewer = new Cesium.Viewer("cesiumContainer", {
+        sceneMode: Cesium.SceneMode.SCENE3D,
+        timeline: false,
+        animation: false,
+      });
 
-    viewer.dataSources.add(Cesium.GeoJsonDataSource.load('../assets', {
-      markerSize: 50,
-      markerColor: Cesium.Color.YELLOW,
-      markerSymbol: 'A'
-    }));
+      var dataSource = Cesium.GeoJsonDataSource.load(
+        "/assets"
+      );
+      viewer.dataSources.add(dataSource);
+      viewer.zoomTo(dataSource); 
 
-    var dataSource = Cesium.GeoJsonDataSource.load(
-      "/assets"
-    );
-    viewer.dataSources.add(dataSource);
-    viewer.zoomTo(dataSource);
-
-
-
-
-    	
     	
     	// selection handler how to?
 
