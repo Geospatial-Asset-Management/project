@@ -9,7 +9,7 @@ from django.template import loader
 
 from crt_ast.models import Asset
 from django.core.serializers import serialize
-import json
+#import json
 
 
 def cesiumAsset(request):
@@ -17,7 +17,7 @@ def cesiumAsset(request):
 	          geometry_field='geom',
 	          fields=('name', 'markercolor', 'markersymbol', ))
 
-	results = json.loads(geojs)
+	#results = json.loads(geojs)
 
 	return HttpResponse(str(geojs))
 
