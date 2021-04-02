@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.gis',
     'schema_graph',
-    "user",
+    'django-dia'
 ]
 
 MIDDLEWARE = [
