@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+
+  </head>
+  <body>
+
+  {% if messages %}
+
+      {% for message in messages %}
+      <div{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</div>
+      {% endfor %}
+
+    {% endif %}
+
+    <form method="post">
+
+      {% csrf_token %}
+      {{form}}
+      <br>
+      <button type="submit" class="btn btn-danger">Giris Yap</button>
+
+    </form>
+
+
+  </body>
+</html>
