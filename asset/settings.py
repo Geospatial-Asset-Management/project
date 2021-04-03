@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'schema_graph',
     "user",
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -136,3 +137,7 @@ if os.name == 'nt':
     os.environ['GDAL_DATA'] = OSGEO4W + r"\share\gdal"
     os.environ['PROJ_LIB'] = OSGEO4W + r"\share\proj"
     os.environ['PATH'] = OSGEO4W + r"\bin;" + os.environ['PATH']
+
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
