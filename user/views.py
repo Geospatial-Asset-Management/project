@@ -3,7 +3,7 @@ from  .forms import RegisterForm
 from .forms import LoginForm
 
 from django.contrib.auth.models import User
-from django.contrib.auth import login,authenticate
+from django.contrib.auth import login,authenticate,logout
 from django.contrib import messages
 
 # Create your views here.
@@ -62,7 +62,8 @@ def loginUser (request):
 
 
 def logoutUser (request):
-    return render(request,"logout.html")
+    logout(request)
+    return redirect("index")
 
 def index(request):
     return render(request,"index.html",context={"myvar":"Deneme"})
