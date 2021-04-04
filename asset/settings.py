@@ -33,6 +33,8 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'crt_ast',
     'pages',
+    'Asset_Life_Cycle',
+    'Task',
     'django_extensions',
     'django.contrib.admin',
     'django.contrib.auth',
