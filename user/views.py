@@ -63,6 +63,7 @@ def loginUser (request):
 
 def logoutUser (request):
     logout(request)
+    messages.success(request,"başarıyla çıkış yaptınız")
     return redirect("index")
 
 def index(request):
