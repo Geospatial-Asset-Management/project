@@ -61,8 +61,9 @@ def loginUser (request):
     return render(request,"login.html",context)
 
 
-def logoutUser(request):
+def logoutUser (request):
     logout(request)
+    messages.success(request,"başarıyla çıkış yaptınız")
     return redirect("index")
 
 def index(request):
