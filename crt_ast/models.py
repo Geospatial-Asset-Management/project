@@ -46,8 +46,7 @@ class Office(models.Model):
 
 class Staff(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE) # connect to django user 
-
-    #office_info = models.ForeignKey(Office, on_delete=models.CASCADE, default=1)
+    office_info = models.ForeignKey(Office, on_delete=models.CASCADE)
     #name = models.ForeignKey(User, on_delete=models.CASCADE)
     #surname = models.CharField(max_length=75)
     title = models.CharField(max_length=75, null=True, blank=True)
