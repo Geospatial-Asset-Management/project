@@ -1,25 +1,24 @@
 from django.shortcuts import render,redirect
-from  .forms import RegisterForm
+from  .forms import UserRegisterForm
 from .forms import LoginForm
+from user import models
 
 from django.contrib.auth.models import User
-from django.contrib.auth import login,authenticate,logout
+from django.contrib.auth import login,authenticate
 from django.contrib import messages
+
 
 # Create your views here.
 
 def register (request):
     if request.method == "POST":
-        form = RegisterForm(request.POST)
+        form = UserRegisterForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data.get("username")
-            password = form.cleaned_data.get("password")
+            form.save()
 
-            newUser = User(username =username)
-            newUser.set_password(password)
-
-            newUser.save()
-            login(request,newUser)
+            username=form.cleaned_data.get('username')
+            name = form.cleaned_data.get('first_name')
+            
             messages.success(request,"Basariyla kayit oldunuz")
 
             return redirect("index")
@@ -30,7 +29,7 @@ def register (request):
 
 
     else:
-        form = RegisterForm()
+        form = UserRegisterForm()
         context = {
             "form" : form
         }
@@ -62,9 +61,7 @@ def loginUser (request):
 
 
 def logoutUser (request):
-    logout(request)
-    messages.success(request,"başarıyla çıkış yaptınız")
-    return redirect("index")
+    return render(request,"logout.html")
 
 def index(request):
     return render(request,"index.html",context={"myvar":"Deneme"})

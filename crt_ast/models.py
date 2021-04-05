@@ -47,7 +47,7 @@ class Office(models.Model):
 class Staff(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE) # connect to django user 
 
-    office_info = models.ForeignKey(Office, on_delete=models.CASCADE, default=1)
+    #office_info = models.ForeignKey(Office, on_delete=models.CASCADE, default=1)
     #name = models.ForeignKey(User, on_delete=models.CASCADE)
     #surname = models.CharField(max_length=75)
     title = models.CharField(max_length=75, null=True, blank=True)
@@ -59,8 +59,9 @@ class Staff(models.Model):
         return "%s's profile" % self.user  
 
 def create_user_profile(sender, instance, created, **kwargs):  
+	
     if created:  
-       profile, created = Staff.objects.get_or_create(user=instance)  
+      profile, created = Staff.objects.get_or_create(user=instance)  
 
 post_save.connect(create_user_profile, sender=User) 
 
