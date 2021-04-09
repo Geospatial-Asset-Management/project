@@ -1,0 +1,33 @@
+{% extends 'partials/_base.html' %}
+{% load static %}
+
+{% block content %}
+
+	<div class="all-title-box">
+		<div class="container text-center">
+			<h1>{{ user.username }}</span></h1>
+		</div>
+	</div>
+
+    <div id="overviews" class="section wb">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 blog-post-single">
+
+					<div class="blog-author">
+						<div class="author-bio">
+							<h2 class="author_name">{{ user.first_name }} {{ user.last_name }}</h3>
+
+						</div>
+					</div>
+
+
+                </div><!-- end col -->
+            </div><!-- end row -->
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="text-center my-5">{{ user.username  }} Logged In</h2>
+                </div>
+
+{% endblock %}

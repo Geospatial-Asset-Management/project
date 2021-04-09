@@ -22,9 +22,12 @@ from user import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home_view, name='home'), #view.py def adı
+    path('', views.index, name='index'), #view.py def adı
     path('home/', home_view, name='home'), #üsttekinin aynısını böyle yazınca http://127.0.0.1:8000/home adresinde üsttekinin aynısı çıkacak
     path('assets/', cesiumAsset),
     path('user/',include("user.urls")),
-    path('welcome/',views.index,name="index"),
+    path('welcome/',views.deneme,name="a"),
+    path('user/register',views.userRegister,name='reg'), 
+    path('user/logout',views.logoutUser,name='logout'), 
+    path('user/login',views.loginUser,name ='login'),
 ]

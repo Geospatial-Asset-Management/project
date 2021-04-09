@@ -4,9 +4,9 @@ from django.contrib.auth.forms import UserCreationForm
 
 
 
-class LoginForm(UserCreationForm):
-    username = forms.CharField(label = "Kullanici Adi")
-    password = forms.CharField(label = "Parola",widget = forms.PasswordInput)
+class LoginForm(forms.Form):
+    username = forms.CharField(label = "Username")
+    password = forms.CharField(label = "Password",widget = forms.PasswordInput)
     
 
 class UserRegisterForm(UserCreationForm):
@@ -14,6 +14,8 @@ class UserRegisterForm(UserCreationForm):
     first_name = forms.CharField(max_length=32)
     last_name=forms.CharField(max_length=32)
     email=forms.EmailField()
+    password1=forms.CharField(label = "Password",widget = forms.PasswordInput)
+    password2=forms.CharField(label = "Confirm Password",widget = forms.PasswordInput)
 
 
     class Meta:

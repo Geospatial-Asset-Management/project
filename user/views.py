@@ -3,8 +3,10 @@ from  .forms import UserRegisterForm
 from .forms import LoginForm
 from user import models
 
+
+
 from django.contrib.auth.models import User
-from django.contrib.auth import login,authenticate
+from django.contrib.auth import login,authenticate,logout
 from django.contrib import messages
 
 
@@ -21,7 +23,7 @@ def register (request):
             
             messages.success(request,"Basariyla kayit oldunuz")
 
-            return redirect("index")
+            return redirect("dashboard")
         context = {
             "form" : form
         }
@@ -61,7 +63,19 @@ def loginUser (request):
 
 
 def logoutUser (request):
-    return render(request,"logout.html")
+    logout(request)
+    return redirect("index")
 
 def index(request):
-    return render(request,"index.html",context={"myvar":"Deneme"})
+    return render(request,"index.html")
+
+def deneme(request):
+    return render(request,"a.html")
+
+def userRegister(request):
+    return render(request,"register.html")
+
+def userDashboard(request):
+    return render(request,"dashboard.html")
+
+
