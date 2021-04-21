@@ -90,9 +90,9 @@ class Asset(models.Model):
 
     description = models.CharField(max_length=256, null=True, blank=True)
 
-    markersize= models.CharField(max_length=7, null=True)
-    markercolor = models.CharField(max_length=7, null=True)
-    markersymbol = models.CharField(max_length=15, null=True) 
+    markersize= models.CharField(max_length=7, null=True, blank=True)
+    markercolor = models.CharField(max_length=7, null=True, blank=True)
+    markersymbol = models.CharField(max_length=15, null=True, blank=True) 
 
 
     def __str__(self, *args, **kwargs):

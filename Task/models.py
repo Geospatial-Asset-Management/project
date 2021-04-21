@@ -14,10 +14,10 @@ class TaskType(models.Model):
     	return self.name
 
 class Task(models.Model):
-    task_type = models.ForeignKey("crt_ast.AssetType", on_delete=models.CASCADE)
+    task_type = models.ForeignKey(TaskType, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, unique=True)
-    assigned_by = models.OneToOneField(User, on_delete=models.CASCADE,related_name='assigned_by')
-    assigned_to = models.OneToOneField(User, on_delete=models.CASCADE, related_name='assigned_to')
+    assigned_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='assigned_by')
+    assigned_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name='assigned_to')
     description = models.CharField(max_length=256, null=True, blank=True)
 
     def __str__(self, *args, **kwargs):
