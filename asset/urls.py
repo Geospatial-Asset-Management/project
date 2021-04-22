@@ -16,18 +16,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
-from pages.views import home_view 
+from pages.views import home_view, draw
 from geo.views import cesiumAsset
 from user import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'), #view.py def adı
-    path('home/', home_view, name='home'), #üsttekinin aynısını böyle yazınca http://127.0.0.1:8000/home adresinde üsttekinin aynısı çıkacak
+    path('home/', home_view, name='home'),
     path('assets/', cesiumAsset),
     path('user/',include("user.urls")),
     path('welcome/',views.deneme,name="a"),
     path('user/register',views.userRegister,name='reg'), 
     path('user/logout',views.logoutUser,name='logout'), 
     path('user/login',views.loginUser,name ='login'),
+    path('draw/', draw , name='draw')
 ]

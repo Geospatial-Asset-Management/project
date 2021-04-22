@@ -15,7 +15,7 @@ from django.core.serializers import serialize
 def cesiumAsset(request):
 	geojs = serialize('geojson', Asset.objects.all(),
 	          geometry_field='geom',
-	          fields=('name', 'markercolor', 'markersymbol', ))
+	          fields=('name', 'markercolor', 'markersymbol', 'description'))
 
 	#results = json.loads(geojs)
 

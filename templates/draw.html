@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Use correct character set. -->
+    <meta charset="utf-8" />
+    <!-- Tell IE to use the latest, best version. -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Make the application on mobile take up the full browser screen and disable user scaling. -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"
+    />
+    <title>Geospatial Asset Management</title>
+    <script src="/static/Cesium/Build/Cesium/Cesium.js"></script>
+    <script src="/static/Cesium/Apps/Sandcastle/Sandcastle-header.js"></script>
+
+    <style>
+      @import url(/static/Cesium/Build/Cesium/Widgets/widgets.css);
+
+      html,
+      body,
+      #cesiumContainer {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        }
+
+      #toolbar {
+        position: absolute;
+        top: 5px;
+        left: 0;
+        display: inline;
+        margin: 10px;
+        padding: 0px;
+        background: green;
+        }
+
+      #logging {
+        position: absolute;
+        bottom: 30px;
+        right: 0;
+        display: inline;
+        margin: 10px;
+        padding: 10px;
+        background: white;
+        }  
+    </style>
+  </head>
+  <body>
+    <div id="cesiumContainer"></div>
+    <div id="toolbar"></div>
+    <div id="logging"></div>
+    <script>
+
+      var viewer = new Cesium.Viewer("cesiumContainer", {
+        sceneMode: Cesium.SceneMode.SCENE3D,
+        timeline: false,
+        animation: false,
+        selectionIndicator: false,
+        infoBox: false,
+        //terrainProvider: Cesium.createWorldTerrain(),
+        // Create Arctic DEM terrain with normals.
+        terrainProvider: new Cesium.CesiumTerrainProvider({
+            url : Cesium.IonResource.fromAssetId(3956),
+            requestVertexNormals : true
+        })
+      });
+
+      if (!viewer.scene.pickPositionSupported) {
+        window.alert("This browser does not support pickPosition.");
+      }
+
+      viewer.cesiumWidget.screenSpaceEventHandler.removeInputAction(
+        Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK
+      );
+
+////////////
+    Cesium.GeoJsonDataSource.clampToGround = true 
+      var dataSource = Cesium.GeoJsonDataSource.load(
+        "/assets"
+      );
+      viewer.dataSources.add(dataSource);
+      viewer.zoomTo(dataSource); 
+
+///////////
+
+function createPoint(worldPosition) {
+  var point = viewer.entities.add({
+    position: worldPosition,
+    point: {
+      color: Cesium.Color.YELLOW,
+      pixelSize: 5,
+      heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+    },
+  });
+  return point;
+}
+var drawingMode = "line";
+function drawShape(positionData) {
+  var shape;
+
+ if (drawingMode === 'point') {
+        shape = viewer.entities.add({
+            point : {
+                positions : positionData,
+                color : Cesium.Color.YELLOW,
+                pixelSize : 10,
+                heightReference: Cesium.HeightReference.CLAMP_TO_GROUND
+            },
+    });
+
+  } else if (drawingMode === "line") {
+    shape = viewer.entities.add({
+      polyline: {
+        positions: positionData,
+        clampToGround: true,
+        width: 3,
+      },
+    });
+    
+  } else if (drawingMode === "polygon") {
+    shape = viewer.entities.add({
+      polygon: {
+        hierarchy: positionData,
+        material: new Cesium.ColorMaterialProperty(
+          Cesium.Color.WHITE.withAlpha(0.5)
+        ),
+      },
+    });
+  }
+  return shape;
+}
+var activeShapePoints = [];
+var activeShape;
+var floatingPoint;
+var handler = new Cesium.ScreenSpaceEventHandler(viewer.canvas);
+handler.setInputAction(function (event) {
+  // We use `viewer.scene.pickPosition` here instead of `viewer.camera.pickEllipsoid` so that
+  // we get the correct point when mousing over terrain.
+  var earthPosition = viewer.scene.pickPosition(event.position);
+
+  // `earthPosition` will be undefined if our mouse is not over the globe.
+  if (Cesium.defined(earthPosition)) {
+    if (activeShapePoints.length === 0) {
+      floatingPoint = createPoint(earthPosition);
+      activeShapePoints.push(earthPosition);
+      var dynamicPositions = new Cesium.CallbackProperty(function () {
+        if (drawingMode === "polygon") {
+          return new Cesium.PolygonHierarchy(activeShapePoints);
+        }
+        return activeShapePoints;
+      }, false);
+      activeShape = drawShape(dynamicPositions);
+    }
+    activeShapePoints.push(earthPosition);
+    createPoint(earthPosition);
+  }
+    ////// loglar
+  var last_element = activeShapePoints[activeShapePoints.length - 1];
+  loggingMessage("Last picked coordinates: " + last_element.toString());
+  console.log("Asset coordinates:" + activeShapePoints.toString());
+
+}, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+handler.setInputAction(function (event) {
+  if (Cesium.defined(floatingPoint)) {
+    var newPosition = viewer.scene.pickPosition(event.endPosition);
+    if (Cesium.defined(newPosition)) {
+      floatingPoint.position.setValue(newPosition);
+      activeShapePoints.pop();
+      activeShapePoints.push(newPosition);
+    }
+  }
+}, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+// Redraw the shape so it's not dynamic and remove the dynamic shape.
+function terminateShape() {
+  activeShapePoints.pop();
+  drawShape(activeShapePoints);
+  viewer.entities.remove(floatingPoint);
+  viewer.entities.remove(activeShape);
+  floatingPoint = undefined;
+  activeShape = undefined;
+  activeShapePoints = [];
+}
+handler.setInputAction(function (event) {
+  terminateShape();
+}, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
+
+///// toolbar için seçenekler
+var options = [
+  {
+    text: "Draw Lines",
+    onselect: function () {
+      if (!Cesium.Entity.supportsPolylinesOnTerrain(viewer.scene)) {
+        window.alert(
+          "This browser does not support polylines on terrain."
+        );
+      }
+      terminateShape();
+      drawingMode = "line";
+    },
+  },
+  {
+    text: "Select Points",
+    onselect: function () {
+      terminateShape();
+      drawingMode = "point";
+    },
+  },
+  {
+    text: "Draw Polygons",
+    onselect: function () {
+      terminateShape();
+      drawingMode = "polygon";
+    },
+  },
+  {
+    text: "Remove All",
+    onselect: function () {
+        console.log('Selected geometries are removed');
+        loggingMessage('Selected geometries are removed');
+        //viewer.dataSources.removeAll();
+        viewer.entities.removeAll();
+    },
+  },
+];
+
+Sandcastle.addToolbarMenu(options);
+////remove button
+Sandcastle.addToolbarButton("Remove All", function () {
+        console.log('Selected geometries are removed');
+        loggingMessage('Selected geometries are removed');
+        //viewer.dataSources.removeAll();
+        viewer.entities.removeAll();
+}); 
+
+//// loggin bar için
+var logging = document.getElementById('logging');
+function loggingMessage(message) {
+    logging.innerHTML = message;
+}
+
+    </script>
+  </body>
+</html>

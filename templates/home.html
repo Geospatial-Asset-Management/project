@@ -11,9 +11,9 @@
       content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"
     />
     <title>Geospatial Asset Management</title>
-    <script src="/static/Cesium/Cesium.js"></script>
+    <script src="/static/Cesium/Build/Cesium/Cesium.js"></script>
     <style>
-      @import url(/static/Cesium/Widgets/widgets.css);
+      @import url(/static/Cesium/Build/Cesium/Widgets/widgets.css);
       html,
       body,
       #cesiumContainer {
@@ -34,16 +34,24 @@
         sceneMode: Cesium.SceneMode.SCENE3D,
         timeline: false,
         animation: false,
+        selectionIndicator: true,
+        infoBox: true,
+        //terrainProvider: Cesium.createWorldTerrain(),
+        // Create Arctic DEM terrain with normals.
+        terrainProvider: new Cesium.CesiumTerrainProvider({
+            url : Cesium.IonResource.fromAssetId(3956),
+            requestVertexNormals : true
+        })
       });
 
+////////////
+    Cesium.GeoJsonDataSource.clampToGround = true 
       var dataSource = Cesium.GeoJsonDataSource.load(
         "/assets"
       );
       viewer.dataSources.add(dataSource);
       viewer.zoomTo(dataSource); 
-
     	
-    	// selection handler how to?
 
     </script>
   </body>

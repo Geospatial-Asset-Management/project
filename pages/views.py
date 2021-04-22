@@ -12,3 +12,12 @@ def home_view(request): #home page create
     }
     
     return HttpResponse(template.render(context, request))
+
+
+def draw(request): #home page create
+
+    template = loader.get_template('draw.html')
+    context = {
+    }
+    
+    return HttpResponse(template.render(context, request))
