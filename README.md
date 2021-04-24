@@ -9,4 +9,5 @@
 - django-scheme-grap
 - django-dia
 - geojson
+- django-tables2
 
