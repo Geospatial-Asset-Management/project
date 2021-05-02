@@ -21,6 +21,7 @@ from geo.views import cesiumAsset
 from user import views
 from crt_ast.views import AssetListView
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'), #view.py def adı
@@ -33,4 +34,5 @@ urlpatterns = [
     path('user/login',views.loginUser,name ='login'),
     path('draw/', draw , name='draw'),
     path('deneme/', AssetListView.as_view()),
+
 ]
