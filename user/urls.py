@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from user import views
+from .views import userDashboard
 
 app_name = "user"
 
@@ -10,6 +11,6 @@ urlpatterns = [
     path('login/',views.loginUser,name ="login"),
     path('logout/',views.logoutUser,name ="logout"),
     path('',views.index,name="index"),
-    path('dashboard/',views.userDashboard,name="dashboard"),
+    path('dashboard/',userDashboard.as_view(),name="dashboard"),
 
 ]

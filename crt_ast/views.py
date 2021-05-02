@@ -1,4 +1,18 @@
+import django_tables2 as tables
 from django.shortcuts import render
-from django.http import HttpResponse
+from django_tables2 import SingleTableView
+from .models import Asset
 
-# Create your views here.
+
+
+
+
+class AssetTable(tables.Table):
+    class Meta :
+        model = Asset
+        fields = ("type",)
+
+class AssetListView(SingleTableView):
+    model = Asset
+    table_class = AssetTable
+    template_name = 'deneme.html'

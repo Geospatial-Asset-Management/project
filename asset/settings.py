@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'schema_graph',
     "user",
     'crispy_forms',
+    'django_tables2',
+    
 ]
 
 MIDDLEWARE = [

@@ -19,6 +19,8 @@ from django.urls import include, path
 from pages.views import home_view, draw
 from geo.views import cesiumAsset
 from user import views
+from crt_ast.views import AssetListView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,5 +32,7 @@ urlpatterns = [
     path('user/register',views.userRegister,name='reg'), 
     path('user/logout',views.logoutUser,name='logout'), 
     path('user/login',views.loginUser,name ='login'),
-    path('draw/', draw , name='draw')
+    path('draw/', draw , name='draw'),
+    path('deneme/', AssetListView.as_view()),
+
 ]

@@ -2,6 +2,8 @@ from django.shortcuts import render,redirect
 from  .forms import UserRegisterForm
 from .forms import LoginForm
 from user import models
+from django.views.generic import ListView
+from crt_ast.models import Asset
 
 
 
@@ -75,7 +77,12 @@ def deneme(request):
 def userRegister(request):
     return render(request,"register.html")
 
-def userDashboard(request):
-    return render(request,"dashboard.html")
+
+
+
+class userDashboard(ListView):
+    model = Asset
+    template_name = 'dashboard.html'
+    fields = ('name')
 
 
