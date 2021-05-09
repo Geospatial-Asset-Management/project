@@ -12,5 +12,8 @@ urlpatterns = [
     path('logout/',views.logoutUser,name ="logout"),
     path('',views.index,name="index"),
     path('dashboard/',userDashboard.as_view(),name="dashboard"),
+    path('addTask/',views.addTask,name="addTask"),
+    path('dashboard2/',views.testDashBoard,name="das"),
+
 
 ]
