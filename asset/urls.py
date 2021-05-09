@@ -20,6 +20,7 @@ from pages.views import home_view, draw
 from geo.views import cesiumAsset
 from user import views
 from crt_ast.views import AssetListView
+from crt_ast.views import CreateAsset
 
 
 urlpatterns = [
@@ -34,5 +35,8 @@ urlpatterns = [
     path('user/login',views.loginUser,name ='login'),
     path('draw/', draw , name='draw'),
     path('deneme/', AssetListView.as_view()),
+    path('task/', views.tasklist,name = 'tasklist'),
+    path('crt_asset/', CreateAsset),
+
 
 ]

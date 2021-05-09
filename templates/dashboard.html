@@ -1,5 +1,5 @@
 {% extends 'partials/_base.html' %}
-{% load static %}
+
 
 
 {% load render_table from django_tables2 %}
@@ -8,50 +8,39 @@
 
 {% block content %}
 
-
-
-
-
-
-  <div class="all-little-box"></div>
-    <div class="container text-center">
-      <h1> Welcome {{user.username}}</span> </h1>
-      
-    </div>
-
-  </div>
-
-  <div>
-
-
-
-   {% render_table object_list %}
-    
-      
-    
-  
-    
-  </div>
-
+  <div class="row">
+    <div class="col-sm">
  
-  
+   {% render_table table_assets %}
+
+
+    </div>
+    <div class="col-sm">
+        {% render_table table_tasks %}
+    </div>
+    <div class="col-12 col-md-8">
+     <div id="cesiumContainer"></div>
+    </div>
+  </div>
+
+
+
         
 
   <script src="/static/Cesium/Build/Cesium/Cesium.js"></script>
     <style>
       @import url(/static/Cesium/Build/Cesium/Widgets/widgets.css);
       #cesiumContainer {
-        width: 40%;
-        height: 40%;
+        width: 90%;
+        height: 90%;
         margin: 0;
         padding: 0;
-        left: 60px;
+        left: 10px;
         overflow: hidden;
       }
     </style>
-  </head>
-  <body>
-    <div id="cesiumContainer"></div>
+ 
+    
     <script>
 
 Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhMjUyNmU3Zi00ZDQ2LTQzMjctYTg4Mi04NjMxNTM0YzI4NmQiLCJpZCI6NDYyODQsImlhdCI6MTYyMDA2MDYxMn0.jKoTW8L_JSbuxICTm2zQEXjgbILBko_imKbfvDxkIms";

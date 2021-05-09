@@ -1,0 +1,49 @@
+{% extends 'partials/_base.html' %}
+
+{% block body %}
+
+{% if tasks %}
+<table class="table">
+        <thead>
+          <tr>
+            <th scope="col">name</th>
+            <th scope="col">type</th>
+            <th scope="col">assigned by</th>
+            <th scope="col">assigned to</th>
+            <th scope="col">description</th>
+
+            
+          </tr>
+        </thead>
+        <tbody>
+          {% for task in tasks %}
+          <tr>
+            <th scope="row">{{task.name}}</th>
+            
+            
+            <td>{{task.task_type }}</td>
+            <td>{{task.assigned_by }}</td>
+            <td>{{task.assigned_to }}</td>
+            <td>{{task.description }}</td>
+            
+            
+
+
+            
+              
+          </tr>
+          {% endfor %}
+          
+        </tbody>
+      </table>
+{% else %}
+
+<div class = "alert alert-danger">
+    Henüz bir makaleniz bulunmuyor...
+
+</div>
+{% endif %}
+
+
+
+{% endblock body %}

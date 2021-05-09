@@ -4,6 +4,10 @@ from .forms import LoginForm
 from user import models
 from django.views.generic import ListView
 from crt_ast.models import Asset
+from .forms import TaskForm
+from Task.models import Task
+from crt_ast.views import AssetTable
+from Task.views import TaskTable
 
 
 
@@ -78,11 +82,45 @@ def userRegister(request):
     return render(request,"register.html")
 
 
+def addTask(request):
+    form = TaskForm(request.POST or None)
+    if form.is_valid():
+        
 
+        form.save()
+        
+        return redirect("index")
+    return render (request,"addTask.html",{"form":form})
+
+
+def testDashBoard(request):
+    context = {}
+    context['table_assets'] = AssetTable(Asset.objects.all())
+    context['table_tasks'] = TaskTable(Task.objects.filter(assigned_to=request.user))
+    return render(request,"dashboard.html",context)
 
 class userDashboard(ListView):
     model = Asset
     template_name = 'dashboard.html'
-    fields = ('name')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["table_assets"] = AssetTable(Asset.objects.all())
+        context["table_tasks"] = TaskTable(Task.objects.all())
+        return context
+    
+    
+
+
+
+def tasklist(request):
+
+
+    tasks = Task.objects.all()
+    context = {
+        "tasks": tasks
+    }
+    return render (request,"tasklist.html",context)
+    
 
 
