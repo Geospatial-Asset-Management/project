@@ -54,19 +54,15 @@
     <div id="cesiumContainer"></div>
     <script>
 
-
+Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhMjUyNmU3Zi00ZDQ2LTQzMjctYTg4Mi04NjMxNTM0YzI4NmQiLCJpZCI6NDYyODQsImlhdCI6MTYyMDA2MDYxMn0.jKoTW8L_JSbuxICTm2zQEXjgbILBko_imKbfvDxkIms";
       var viewer = new Cesium.Viewer("cesiumContainer", {
         sceneMode: Cesium.SceneMode.SCENE3D,
         timeline: false,
         animation: false,
         selectionIndicator: true,
         infoBox: true,
-        //terrainProvider: Cesium.createWorldTerrain(),
-        // Create Arctic DEM terrain with normals.
-        terrainProvider: new Cesium.CesiumTerrainProvider({
-            url : Cesium.IonResource.fromAssetId(3956),
-            requestVertexNormals : true
-        })
+        terrainProvider: Cesium.createWorldTerrain(),
+       
       });
 
 ////////////
