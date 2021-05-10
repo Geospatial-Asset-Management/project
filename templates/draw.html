@@ -77,6 +77,19 @@ Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOi
       viewer.cesiumWidget.screenSpaceEventHandler.removeInputAction(
         Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK
       );
+      //OSM buildings
+      viewer.scene.primitives.add(Cesium.createOsmBuildings());
+      //Bing Maps Aerial with Labels
+    var layer = viewer.imageryLayers.addImageryProvider(
+      new Cesium.IonImageryProvider({ assetId: 3 })
+    );
+    /*//Cesium ion OSM Buildings
+    var tileset = viewer.scene.primitives.add(
+      new Cesium.Cesium3DTileset({
+        url: Cesium.IonResource.fromAssetId(96188),
+      })
+    );
+*/
 
 ////////////
     Cesium.GeoJsonDataSource.clampToGround = true 
@@ -99,7 +112,7 @@ function createPoint(worldPosition) {
   });
   return point;
 }
-var drawingMode = "line";
+var drawingMode = "point";
 function drawShape(positionData) {
   var shape;
 
@@ -142,6 +155,12 @@ handler.setInputAction(function (event) {
   // We use `viewer.scene.pickPosition` here instead of `viewer.camera.pickEllipsoid` so that
   // we get the correct point when mousing over terrain.
   var earthPosition = viewer.scene.pickPosition(event.position);
+  //new cartesian coordinates
+  var cartographic = Cesium.Cartographic.fromCartesian(
+   earthPosition,
+   viewer.scene.globe.ellipsoid,
+   new Cesium.Cartographic()
+  );  
 
   // `earthPosition` will be undefined if our mouse is not over the globe.
   if (Cesium.defined(earthPosition)) {
@@ -161,11 +180,6 @@ handler.setInputAction(function (event) {
   }
     ////// loglar
   //new
-  var cartographic = Cesium.Cartographic.fromCartesian(
-   earthPosition,
-   viewer.scene.globe.ellipsoid,
-   new Cesium.Cartographic()
-  );  
   var lat = Cesium.Math.toDegrees(cartographic.latitude);
   var lng = Cesium.Math.toDegrees(cartographic.longitude);
   var height = viewer.camera.positionCartographic.height;
@@ -204,7 +218,7 @@ handler.setInputAction(function (event) {
 ///// toolbar için seçenekler
 var options = [
   {
-    text: "Draw Lines",
+    text: "Select Points",
     onselect: function () {
       if (!Cesium.Entity.supportsPolylinesOnTerrain(viewer.scene)) {
         window.alert(
@@ -212,14 +226,14 @@ var options = [
         );
       }
       terminateShape();
-      drawingMode = "line";
+      drawingMode = "point";
     },
   },
   {
-    text: "Select Points",
+    text: "Draw Lines",
     onselect: function () {
       terminateShape();
-      drawingMode = "point";
+      drawingMode = "line";
     },
   },
   {
