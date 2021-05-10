@@ -88,9 +88,6 @@ Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOi
 
 ///////////
 
-
-
-/////////
 function createPoint(worldPosition) {
   var point = viewer.entities.add({
     position: worldPosition,
@@ -163,10 +160,21 @@ handler.setInputAction(function (event) {
     createPoint(earthPosition);
   }
     ////// loglar
+  //new
+  var cartographic = Cesium.Cartographic.fromCartesian(
+   earthPosition,
+   viewer.scene.globe.ellipsoid,
+   new Cesium.Cartographic()
+  );  
+  var lat = Cesium.Math.toDegrees(cartographic.latitude);
+  var lng = Cesium.Math.toDegrees(cartographic.longitude);
+  var height = viewer.camera.positionCartographic.height;
+  console.log(lat, lng, height);
+  loggingMessage("Last picked coordinates: " + lat.toString() +", "+  lng.toString() +", "+ height.toString());
+  //old
   var last_element = activeShapePoints[activeShapePoints.length - 1];
-  loggingMessage("Last picked coordinates: " + last_element.toString());
+  //loggingMessage("Last picked coordinates: " + last_element.toString());
   console.log("Asset coordinates:" + activeShapePoints.toString());
-
 }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 
 handler.setInputAction(function (event) {
