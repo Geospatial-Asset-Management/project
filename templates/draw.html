@@ -62,7 +62,7 @@ Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOi
         animation: false,
         selectionIndicator: false,
         infoBox: false,
-        //terrainProvider: Cesium.createWorldTerrain(),
+        terrainProvider: Cesium.createWorldTerrain(),
         // Create Arctic DEM terrain with normals.
         /*terrainProvider: new Cesium.CesiumTerrainProvider({
             url : Cesium.IonResource.fromAssetId(3956),
@@ -88,6 +88,9 @@ Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOi
 
 ///////////
 
+
+
+/////////
 function createPoint(worldPosition) {
   var point = viewer.entities.add({
     position: worldPosition,
