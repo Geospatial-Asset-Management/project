@@ -36,16 +36,6 @@ LOCATION_FIELD = {
     'provider.google.map.type': 'HYBRID',
 }
 
-MAP_WIDGETS = {
-    "GooglePointFieldWidget": (
-        ("zoom", 15),
-        ("mapCenterLocationName", "ankara"),
-        ("GooglePlaceAutocompleteOptions", {'componentRestrictions': {'country': 'tr'}}),
-        ("markerFitZoom", 12),
-    ),
-    "GOOGLE_MAP_API_KEY": "AIzaSyDq7HbbdKGbhcDM_l1QHAdFnZCOKhQ_9HM"
-}
-
 # Application definition
 
 INSTALLED_APPS = [
