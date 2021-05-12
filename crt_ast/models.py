@@ -4,7 +4,8 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import MaxValueValidator
-#from Asset_Life_Cycle.models import LifeCyclePhase
+from django.contrib.gis.geos import Point
+from location_field.models.spatial import LocationField
 
 
 # Create your models here.
@@ -37,7 +38,7 @@ class AssetTypeSymbol(models.Model):
 
 class Office(models.Model):
     department = models.CharField(max_length=75)
-    office_location = models.CharField(max_length=100, null=True, blank=True)
+    office_location = models.CharField(max_length=100, null=True, blank=True, verbose_name='Office Location')
     email = models.EmailField(max_length=100, null=True, blank=True)
     description = models.CharField(max_length=256, null=True, blank=True)
 
@@ -46,7 +47,7 @@ class Office(models.Model):
 
 class Staff(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE) # connect to django user 
-    office_info = models.ForeignKey(Office, on_delete=models.CASCADE, blank=True, null=True)
+    office_info = models.ForeignKey(Office, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Office Info')
     #name = models.ForeignKey(User, on_delete=models.CASCADE)
     #surname = models.CharField(max_length=75)
     title = models.CharField(max_length=75, null=True, blank=True)
@@ -74,14 +75,17 @@ post_save.connect(create_user_profile, sender=User)
 
 class Asset(models.Model):
     type = models.ForeignKey(AssetType, on_delete=models.CASCADE)
-    lc_phase = models.ForeignKey("Asset_Life_Cycle.LifeCyclePhase", on_delete=models.CASCADE)
+    lc_phase = models.ForeignKey("Asset_Life_Cycle.LifeCyclePhase", on_delete=models.CASCADE, verbose_name='Life Cycle Phase')
     name = models.CharField(max_length=30)
-    # BaseSpatialField.srid()
-    geom = models.GeometryField()
+
+    #city = models.CharField(max_length=255)
+    geom = LocationField(zoom=13, default=Point(32.733820,39.865586), verbose_name='Location')
+
+    #geom = models.GeometryField(null=True, blank=True)
     elevation = models.IntegerField(null=True, blank=True)
     photo = models.ImageField(blank=True, null=True, upload_to='asset_photo/')
-    comissioning_date = models.DateField(null=True, blank=True)
-    decommission_date = models.DateField(null=True, blank=True)
+    comissioning_date = models.DateField(null=True, blank=True , verbose_name='Comissioning Date')
+    decommission_date = models.DateField(null=True, blank=True, verbose_name='Decommission Date')
 
     active_choices = (('Yes', "Active"), ('No', "Inactive"),
                       ('Maintenance', "Maintenance"))

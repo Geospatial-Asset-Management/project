@@ -14,7 +14,7 @@ class LifeCycle(models.Model):
     	return self.name
 
 class LifeCyclePhase(models.Model):
-    lc = models.ForeignKey(LifeCycle, on_delete=models.CASCADE)
+    lc = models.ForeignKey(LifeCycle, on_delete=models.CASCADE, verbose_name='Life Cycle Name')
  #  asset_prop_value_id = models.ForeignKey("crt_ast.AssetPropertyValue", on_delete=models.CASCADE)
     name = models.CharField(max_length=100, unique=True)
     description = models.CharField(max_length=256, null=True, blank=True)

@@ -27,6 +27,24 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+GOOGLE_MAP_API_KEY: "AIzaSyDq7HbbdKGbhcDM_l1QHAdFnZCOKhQ_9HM"
+
+LOCATION_FIELD = {
+    'provider.google.api': '//maps.google.com/maps/api/js?sensor=false',
+    'provider.google.api_key': 'AIzaSyDq7HbbdKGbhcDM_l1QHAdFnZCOKhQ_9HM',
+    'provider.google.api_libraries': '',
+    'provider.google.map.type': 'HYBRID',
+}
+
+MAP_WIDGETS = {
+    "GooglePointFieldWidget": (
+        ("zoom", 15),
+        ("mapCenterLocationName", "ankara"),
+        ("GooglePlaceAutocompleteOptions", {'componentRestrictions': {'country': 'tr'}}),
+        ("markerFitZoom", 12),
+    ),
+    "GOOGLE_MAP_API_KEY": "AIzaSyDq7HbbdKGbhcDM_l1QHAdFnZCOKhQ_9HM"
+}
 
 # Application definition
 
@@ -47,7 +65,7 @@ INSTALLED_APPS = [
     "user",
     'crispy_forms',
     'django_tables2',
-    
+    'location_field.apps.DefaultConfig',
 ]
 
 MIDDLEWARE = [
@@ -151,3 +169,5 @@ if os.name == 'nt':
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')

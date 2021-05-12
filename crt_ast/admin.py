@@ -1,6 +1,8 @@
 from django.contrib import admin
 
 from .models import AssetType, AssetTypeProperty, AssetPropertyValue, AssetTypeSymbol, Office, Staff, Asset
+from django.contrib.gis.db import models
+from mapwidgets.widgets import GooglePointFieldWidget
 
 admin.site.register(AssetType)
 admin.site.register(AssetTypeProperty)
@@ -12,3 +14,8 @@ admin.site.register(Asset)
 
 # Register your models here.
 
+
+class CityAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        models.PointField: {"widget": GooglePointFieldWidget}
+    }
