@@ -81,13 +81,15 @@ class Asset(models.Model):
     #city = models.CharField(max_length=255)
     geom = LocationField(zoom=13, default=Point(32.733820,39.865586), verbose_name='Location')
 
-    #geom = models.GeometryField(null=True, blank=True)
-    elevation = models.IntegerField(null=True, blank=True)
+    lat = models.FloatField(null=True, blank=True)
+    lon = models.FloatField(null=True, blank=True)
+    height = models.FloatField(null=True, blank=True)
+    
     photo = models.ImageField(blank=True, null=True, upload_to='asset_photo/')
     comissioning_date = models.DateField(null=True, blank=True , verbose_name='Comissioning Date')
     decommission_date = models.DateField(null=True, blank=True, verbose_name='Decommission Date')
 
-    active_choices = (('Yes', "Active"), ('No', "Inactive"),
+    active_choices = (('Active', "Active"), ('Inactiveive', "Inactive"),
                       ('Maintenance', "Maintenance"))
     active = models.CharField(max_length=11,
                               choices=active_choices, null=True, blank=True)
@@ -97,6 +99,46 @@ class Asset(models.Model):
     markersize= models.CharField(max_length=7, null=True, blank=True)
     markercolor = models.CharField(max_length=7, null=True, blank=True)
     markersymbol = models.CharField(max_length=15, null=True, blank=True) 
+
+
+    def __str__(self, *args, **kwargs):
+        return "{}, Type: {}".format(self.name, self.type.name)
+
+class Point(models.Model):
+    type = models.ForeignKey(AssetType, on_delete=models.CASCADE)
+    lc_phase = models.ForeignKey("Asset_Life_Cycle.LifeCyclePhase", on_delete=models.CASCADE)
+    name = models.CharField(max_length=30)
+    description = models.CharField(max_length=256, null=True, blank=True)
+    # BaseSpatialField.srid()
+    lat = models.FloatField(null=True, blank=True)
+    lon = models.FloatField(null=True, blank=True)
+    height = models.FloatField(null=True, blank=True)
+
+    comissioning_date = models.DateField(null=True, blank=True)
+    decommission_date = models.DateField(null=True, blank=True)
+
+    active_choices = (('Active', "Active"), ('Inactive', "Inactive"),
+                      ('Maintenance', "Maintenance"))
+    status = models.CharField(max_length=11,
+                              choices=active_choices, null=True, blank=True)
+
+    deneme= models.BinaryField(null=True, blank=True)
+
+
+    photo = models.ImageField(blank=True, null=True, upload_to='asset_photo/')
+    symbol = models.FilePathField(path='crt_ast/static/Cesium/Build/Cesium/Assets/Textures/maki/', null=True, blank=True)
+    markersize= models.FloatField(null=True, blank=True, default=1.0)
+    COLOR_CHOICES = [
+        ("#FFFFFF", "white"),
+        ("#000000", "black"),
+        ("#808080", "grey"),
+        ("#FFFF00", "yellow"),
+        ("#FF0000", "red"),
+        ("#0000FF", "blue"),
+        ("#008000", "green"),
+        ("#FFC0CB", "pink"),
+    ]
+    markercolor = ColorField(choices=COLOR_CHOICES, null=True, blank=True, default="#FFFFFF")
 
 
     def __str__(self, *args, **kwargs):

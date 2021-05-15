@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django_tables2',
     'location_field.apps.DefaultConfig',
+    'colorfield.fields',
 ]
 
 MIDDLEWARE = [

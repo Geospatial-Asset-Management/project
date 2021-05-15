@@ -37,6 +37,7 @@ urlpatterns = [
     path('deneme/', AssetListView.as_view()),
     path('task/', views.tasklist,name = 'tasklist'),
     path('crt_asset/', CreateAsset),
+    path('points/', czmlPoint),
 
 
 ]
