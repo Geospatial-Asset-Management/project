@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import MaxValueValidator
 from django.contrib.gis.geos import Point
 from location_field.models.spatial import LocationField
-
+from colorfield.fields import ColorField
 
 # Create your models here.
 
@@ -80,6 +80,7 @@ class Asset(models.Model):
 
     #city = models.CharField(max_length=255)
     geom = LocationField(zoom=13, default=Point(32.733820,39.865586), verbose_name='Location')
+    elevation = models.IntegerField(null=True, blank=True)
 
     lat = models.FloatField(null=True, blank=True)
     lon = models.FloatField(null=True, blank=True)

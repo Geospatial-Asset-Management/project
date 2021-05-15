@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import include, path
 
 from pages.views import home_view, draw
-from geo.views import cesiumAsset
+from geo.views import cesiumAsset, czmlPoint
 from user import views
 from crt_ast.views import AssetListView
 from crt_ast.views import CreateAsset
