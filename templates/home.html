@@ -12,6 +12,13 @@
     />
     <title>Geospatial Asset Management</title>
     <script src="/static/Cesium/Build/Cesium/Cesium.js"></script>
+    <script src="/static/Cesium/Apps/Sandcastle/Sandcastle-header.js"></script>
+    
+    <script>
+        Cesium.defineProperties = Object.defineProperties;
+    </script>
+    <script src="/static/navigation/viewerCesiumNavigationMixin.min.js"></script>
+
     <style>
       @import url(/static/Cesium/Build/Cesium/Widgets/widgets.css);
       html,
@@ -23,10 +30,21 @@
         padding: 0;
         overflow: hidden;
       }
+      #toolbar {
+        position: absolute;
+        top: 5px;
+        left: 0;
+        display: inline;
+        margin: 10px;
+        padding: 0px;
+        background: green;
+        }
+
     </style>
   </head>
   <body>
     <div id="cesiumContainer"></div>
+    <div id="toolbar"></div>
     <script>
 
 Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhMjUyNmU3Zi00ZDQ2LTQzMjctYTg4Mi04NjMxNTM0YzI4NmQiLCJpZCI6NDYyODQsImlhdCI6MTYyMDA2MDYxMn0.jKoTW8L_JSbuxICTm2zQEXjgbILBko_imKbfvDxkIms";
@@ -57,15 +75,51 @@ Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOi
       })
     );
 */
+///compass
+    viewer.extend(Cesium.viewerCesiumNavigationMixin, {});
 
 ////////////
-    Cesium.GeoJsonDataSource.clampToGround = true 
-      var dataSource = Cesium.GeoJsonDataSource.load(
-        "/assets"
+    Cesium.GeoJsonDataSource.clampToGround = true ;
+    var pinBuilder = new Cesium.PinBuilder();
+    Cesium.CzmlDataSource.clampToGround = true ;
+    var dataSource1 = Cesium.GeoJsonDataSource.load(
+      "/assets"
       );
-      viewer.dataSources.add(dataSource);
-      viewer.zoomTo(dataSource); 
-    	
+    var dataSource2 = Cesium.CzmlDataSource.load(
+      "/points"
+      );
+    viewer.dataSources.add(dataSource1);
+    viewer.dataSources.add(dataSource2);
+    //viewer.zoomTo(dataSource1); 
+    viewer.flyTo(dataSource2)
+
+//Infobox and write picked to console
+viewer.selectedEntityChanged.addEventListener(function(selectedEntity) {
+  if (Cesium.defined(selectedEntity)) {
+      if (Cesium.defined(selectedEntity.name)) {
+        console.log('Selected ' + selectedEntity.status);
+        //viewer.zoomTo(selectedEntity)
+        viewer.selectedEntity = selectedEntity;
+        selectedEntity.description =
+          '<table class="cesium-infoBox-defaultTable"><tbody>' +
+          "<tr><th>Description</th><td>" +
+          selectedEntity.description +
+          "</td></tr>" +
+          "<tr><th>ID</th><td>" +
+          selectedEntity.id +
+          "</td></tr>" +
+          "<tr><th>Name</th><td>" +
+          selectedEntity.name +
+          "</td></tr>" +
+          "</tbody></table>";
+      } else {
+        console.log('Unknown entity selected.');
+      }
+  } else {
+    console.log('Deselected.');
+  }
+  });
+
 
     </script>
   </body>
