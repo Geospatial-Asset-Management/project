@@ -1,4 +1,8 @@
 {% extends 'partials/_base.html' %}
+{% load static %}
+
+
+
 
 
 
@@ -8,42 +12,107 @@
 
 {% block content %}
 
-  <div class="row">
-    <div class="col-sm">
- 
-   {% render_table table_assets %}
-
-
-    </div>
-    <div class="col-sm">
-        {% render_table table_tasks %}
-    </div>
-    <div class="col-12 col-md-8">
-     <div id="cesiumContainer"></div>
-    </div>
-  </div>
 
 
 
-        
 
-  <script src="/static/Cesium/Build/Cesium/Cesium.js"></script>
+
+
+
+
+
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-2">
+			<div class="row">
+				<div class="col-lg-12">
+          <h1> Asset Table</h1>
+          {% render_table table_assets %}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+          <h1> Task Table</h1>
+          {% render_table table_tasks %}
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-10" id="cesiumContainer">
+
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<!--
+<h1> ASSET TABLE </h1>
+
+
+<div class="table">
+    
+    {% render_table table_assets %}
+    
+</div>
+<h1>TASK TABLE </h1>
+<div class="table">
+  {% render_table table_tasks %}
+</div>
+
+
+
+
+
+
+
+
+
+
+
+-->
+<script src="/static/Cesium/Build/Cesium/Cesium.js"></script>
+<script src="/static/Cesium/Apps/Sandcastle/Sandcastle-header.js"></script>
+    
+    <script>
+        Cesium.defineProperties = Object.defineProperties;
+    </script>
+    <script src="/static/navigation/viewerCesiumNavigationMixin.min.js"></script>
+
     <style>
       @import url(/static/Cesium/Build/Cesium/Widgets/widgets.css);
       #cesiumContainer {
-        width: 90%;
+        width: 70%;
         height: 90%;
         margin: 0;
-        padding: 0;
-        left: 10px;
+        padding-left: 0;
         overflow: hidden;
       }
+      #toolbar {
+        position: absolute;
+        top: 5px;
+        left: 0;
+        display: inline;
+        margin: 10px;
+        padding: 0px;
+        background: green;
+        }
+
     </style>
  
-    
+  
+    <div id="cesiumContainer"></div>
+    <div id="toolbar"></div>
     <script>
 
 Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhMjUyNmU3Zi00ZDQ2LTQzMjctYTg4Mi04NjMxNTM0YzI4NmQiLCJpZCI6NDYyODQsImlhdCI6MTYyMDA2MDYxMn0.jKoTW8L_JSbuxICTm2zQEXjgbILBko_imKbfvDxkIms";
+
       var viewer = new Cesium.Viewer("cesiumContainer", {
         sceneMode: Cesium.SceneMode.SCENE3D,
         timeline: false,
@@ -51,20 +120,72 @@ Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOi
         selectionIndicator: true,
         infoBox: true,
         terrainProvider: Cesium.createWorldTerrain(),
-       
+        // Create Arctic DEM terrain with normals.
+        /*terrainProvider: new Cesium.CesiumTerrainProvider({
+            url : Cesium.IonResource.fromAssetId(3956),
+            requestVertexNormals : true
+        }) */
       });
+      //OSM buildings
+      viewer.scene.primitives.add(Cesium.createOsmBuildings());
+      //Bing Maps Aerial with Labels
+    var layer = viewer.imageryLayers.addImageryProvider(
+      new Cesium.IonImageryProvider({ assetId: 3 })
+    );
+    /*//Cesium ion OSM Buildings
+    var tileset = viewer.scene.primitives.add(
+      new Cesium.Cesium3DTileset({
+        url: Cesium.IonResource.fromAssetId(96188),
+      })
+    );
+*/
+///compass
+    viewer.extend(Cesium.viewerCesiumNavigationMixin, {});
 
 ////////////
-    Cesium.GeoJsonDataSource.clampToGround = true 
-      var dataSource = Cesium.GeoJsonDataSource.load(
-        "/assets"
+    Cesium.GeoJsonDataSource.clampToGround = true ;
+    var pinBuilder = new Cesium.PinBuilder();
+    Cesium.CzmlDataSource.clampToGround = true ;
+    var dataSource1 = Cesium.GeoJsonDataSource.load(
+      "/assets"
       );
-      viewer.dataSources.add(dataSource);
-      viewer.zoomTo(dataSource); 
-      
+    var dataSource2 = Cesium.CzmlDataSource.load(
+      "/points"
+      );
+    viewer.dataSources.add(dataSource1);
+    viewer.dataSources.add(dataSource2);
+    //viewer.zoomTo(dataSource1); 
+    viewer.flyTo(dataSource2)
+
+//Infobox and write picked to console
+viewer.selectedEntityChanged.addEventListener(function(selectedEntity) {
+  if (Cesium.defined(selectedEntity)) {
+      if (Cesium.defined(selectedEntity.name)) {
+        console.log('Selected ' + selectedEntity.status);
+        //viewer.zoomTo(selectedEntity)
+        viewer.selectedEntity = selectedEntity;
+        selectedEntity.description =
+          '<table class="cesium-infoBox-defaultTable"><tbody>' +
+          "<tr><th>Description</th><td>" +
+          selectedEntity.description +
+          "</td></tr>" +
+          "<tr><th>ID</th><td>" +
+          selectedEntity.id +
+          "</td></tr>" +
+          "<tr><th>Name</th><td>" +
+          selectedEntity.name +
+          "</td></tr>" +
+          "</tbody></table>";
+      } else {
+        console.log('Unknown entity selected.');
+      }
+  } else {
+    console.log('Deselected.');
+  }
+  });
+
 
     </script>
-
-
   
+
 {% endblock %}

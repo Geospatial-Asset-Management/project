@@ -29,7 +29,7 @@ def register (request):
             
             messages.success(request,"Basariyla kayit oldunuz")
 
-            return redirect("dashboard")
+            return redirect("index")
         context = {
             "form" : form
         }

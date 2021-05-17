@@ -10,6 +10,6 @@ class TaskTable(tables.Table):
     class Meta :
         attrs = {'class':'table table-striped table-hover'}
         model = Task
-        fields = ("task_type","name","description")
+        fields = ("task_type","assigned_by","description")
 
 # Create your views here.
