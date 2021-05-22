@@ -926,10 +926,19 @@ class Label(_CZMLBaseObject):
     The label is positioned in the scene by the position property."""
 
     text = None
-    show = False
+    show = True
     horizontalOrigin = None
     scale = None
     pixelOffset = None
+
+    fillColor = None 
+    style = "FILL_AND_OUTLINE"
+    font = "20pt Calibri"
+    outlineWidth = "12"
+    clampToGround = None
+    heightReference= None
+    showBackground = False
+    backgroundColor = None
 
     def __init__(self, text=None, show=False):
         self.text = text
@@ -949,6 +958,24 @@ class Label(_CZMLBaseObject):
             d['scale'] = self.scale
         if self.pixelOffset:
             d['pixelOffset'] = self.pixelOffset
+        if self.fillColor:
+            d['fillColor'] = self.fillColor
+        if self.font:
+            d['font'] = self.font
+        if self.outlineWidth:
+            d['outlineWidth'] = self.outlineWidth
+        if self.style:
+            d['style'] = self.style
+        if self.clampToGround:
+            d['clampToGround'] = self.clampToGround
+        if self.style:
+            d['heightReference'] = self.heightReference
+        if self.showBackground:
+            d['showBackground'] = True
+        if self.show == False:
+            d['showBackground'] = False
+        if self.backgroundColor:
+            d['backgroundColor'] = self.backgroundColor
         return d
 
     def load(self, data):
