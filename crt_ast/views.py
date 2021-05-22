@@ -13,7 +13,7 @@ class AssetTable(tables.Table):
     class Meta :
         attrs = {'class':'table table-striped table-hover'}
         model = Asset
-        fields = ("type","name")
+        fields = ("type","name","lc_phase")
 
 
 
