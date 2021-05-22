@@ -19,16 +19,16 @@ class LifeCyclePhase(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.CharField(max_length=256, null=True, blank=True)
     COLOR_CHOICES = [
-        ("#FFFFFFFF", "white"),
-        ("#000000FF", "black"),
-        ("#808080FF", "grey"),
-        ("#FFFF00FF", "yellow"),
-        ("#FF0000FF", "red"),
-        ("#0000FFFF", "blue"),
-        ("#008000FF", "green"),
-        ("#FFC0CBFF", "pink"),
+        ("#FFFFFF90", "white"),
+        ("#00000090", "black"),
+        ("#80808090", "grey"),
+        ("#FFFF0090", "yellow"),
+        ("#FF000090", "red"),
+        ("#0000FF90", "blue"),
+        ("#00800090", "green"),
+        ("#FFC0CB90", "pink"),
     ]
-    color = ColorField(format="hexa", null=True, blank=True, default="#FFFFFFFF") #choices=COLOR_CHOICES
+    color = ColorField(format="hexa", null=True, choices=COLOR_CHOICES, blank=True, default="#FFFFFFFF")
 
     def __str__(self, *args, **kwargs):
         return self.name
