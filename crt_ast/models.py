@@ -4,9 +4,9 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import MaxValueValidator
-from django.contrib.gis.geos import Point
-from location_field.models.spatial import LocationField
 from colorfield.fields import ColorField
+#from Asset_Life_Cycle.models import LifeCyclePhase
+
 
 # Create your models here.
 
@@ -38,7 +38,7 @@ class AssetTypeSymbol(models.Model):
 
 class Office(models.Model):
     department = models.CharField(max_length=75)
-    office_location = models.CharField(max_length=100, null=True, blank=True, verbose_name='Office Location')
+    office_location = models.CharField(max_length=100, null=True, blank=True)
     email = models.EmailField(max_length=100, null=True, blank=True)
     description = models.CharField(max_length=256, null=True, blank=True)
 
@@ -47,7 +47,7 @@ class Office(models.Model):
 
 class Staff(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE) # connect to django user 
-    office_info = models.ForeignKey(Office, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Office Info')
+    office_info = models.ForeignKey(Office, on_delete=models.CASCADE, blank=True, null=True)
     #name = models.ForeignKey(User, on_delete=models.CASCADE)
     #surname = models.CharField(max_length=75)
     title = models.CharField(max_length=75, null=True, blank=True)
@@ -59,7 +59,7 @@ class Staff(models.Model):
         return "%s's profile" % self.user  
 
 def create_user_profile(sender, instance, created, **kwargs):  
-	
+    
     if created:  
       profile, created = Staff.objects.get_or_create(user=instance)  
 
@@ -75,20 +75,18 @@ post_save.connect(create_user_profile, sender=User)
 
 class Asset(models.Model):
     type = models.ForeignKey(AssetType, on_delete=models.CASCADE)
-    lc_phase = models.ForeignKey("Asset_Life_Cycle.LifeCyclePhase", on_delete=models.CASCADE, verbose_name='Life Cycle Phase')
+    lc_phase = models.ForeignKey("Asset_Life_Cycle.LifeCyclePhase", on_delete=models.CASCADE)
     name = models.CharField(max_length=30)
-
-    #city = models.CharField(max_length=255)
-    geom = LocationField(zoom=13, default=Point(32.733820,39.865586), verbose_name='Location')
+    # BaseSpatialField.srid()
+    geom = models.GeometryField()
     elevation = models.IntegerField(null=True, blank=True)
-
     lat = models.FloatField(null=True, blank=True)
     lon = models.FloatField(null=True, blank=True)
     height = models.FloatField(null=True, blank=True)
     
     photo = models.ImageField(blank=True, null=True, upload_to='asset_photo/')
-    comissioning_date = models.DateField(null=True, blank=True , verbose_name='Comissioning Date')
-    decommission_date = models.DateField(null=True, blank=True, verbose_name='Decommission Date')
+    comissioning_date = models.DateField(null=True, blank=True)
+    decommission_date = models.DateField(null=True, blank=True)
 
     active_choices = (('Active', "Active"), ('Inactiveive', "Inactive"),
                       ('Maintenance', "Maintenance"))
@@ -100,7 +98,6 @@ class Asset(models.Model):
     markersize= models.CharField(max_length=7, null=True, blank=True)
     markercolor = models.CharField(max_length=7, null=True, blank=True)
     markersymbol = models.CharField(max_length=15, null=True, blank=True) 
-
 
     def __str__(self, *args, **kwargs):
         return "{}, Type: {}".format(self.name, self.type.name)
@@ -118,14 +115,6 @@ class Point(models.Model):
     comissioning_date = models.DateField(null=True, blank=True)
     decommission_date = models.DateField(null=True, blank=True)
 
-    active_choices = (('Active', "Active"), ('Inactive', "Inactive"),
-                      ('Maintenance', "Maintenance"))
-    status = models.CharField(max_length=11,
-                              choices=active_choices, null=True, blank=True)
-
-    deneme= models.BinaryField(null=True, blank=True)
-
-
     photo = models.ImageField(blank=True, null=True, upload_to='asset_photo/')
     symbol = models.FilePathField(path='crt_ast/static/Cesium/Build/Cesium/Assets/Textures/maki/', null=True, blank=True)
     markersize= models.FloatField(null=True, blank=True, default=1.0)
@@ -139,7 +128,7 @@ class Point(models.Model):
         ("#008000", "green"),
         ("#FFC0CB", "pink"),
     ]
-    markercolor = ColorField(choices=COLOR_CHOICES, null=True, blank=True, default="#FFFFFF")
+    markercolor = ColorField(format="hex", null=True, choices=COLOR_CHOICES, blank=True, default="#FFFFFF")
 
 
     def __str__(self, *args, **kwargs):
