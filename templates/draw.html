@@ -14,6 +14,11 @@
     <script src="/static/Cesium/Build/Cesium/Cesium.js"></script>
     <script src="/static/Cesium/Apps/Sandcastle/Sandcastle-header.js"></script>
 
+    <script>
+        Cesium.defineProperties = Object.defineProperties;
+    </script>
+    <script src="/static/navigation/viewerCesiumNavigationMixin.min.js"></script>
+
     <style>
       @import url(/static/Cesium/Build/Cesium/Widgets/widgets.css);
 
@@ -78,26 +83,36 @@ Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOi
         Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK
       );
       //OSM buildings
-      viewer.scene.primitives.add(Cesium.createOsmBuildings());
+      //viewer.scene.primitives.add(Cesium.createOsmBuildings());
       //Bing Maps Aerial with Labels
     var layer = viewer.imageryLayers.addImageryProvider(
       new Cesium.IonImageryProvider({ assetId: 3 })
     );
-    /*//Cesium ion OSM Buildings
+    //Cesium ion OSM Buildings
     var tileset = viewer.scene.primitives.add(
       new Cesium.Cesium3DTileset({
         url: Cesium.IonResource.fromAssetId(96188),
       })
     );
-*/
 
-////////////
-    Cesium.GeoJsonDataSource.clampToGround = true 
-      var dataSource = Cesium.GeoJsonDataSource.load(
-        "/assets"
+
+///// Compass
+    viewer.extend(Cesium.viewerCesiumNavigationMixin, {});
+
+//////////// DataSources and Zoom
+    Cesium.GeoJsonDataSource.clampToGround = true ;
+    var pinBuilder = new Cesium.PinBuilder();
+    Cesium.CzmlDataSource.clampToGround = true ;
+    var dataSource1 = Cesium.GeoJsonDataSource.load(
+      "/assets"
       );
-      viewer.dataSources.add(dataSource);
-      viewer.zoomTo(dataSource); 
+    var dataSource2 = Cesium.CzmlDataSource.load(
+      "/points"
+      );
+    viewer.dataSources.add(dataSource1);
+    viewer.dataSources.add(dataSource2);
+    viewer.zoomTo(dataSource2); 
+    //viewer.flyTo(dataSource2)
 
 ///////////
 
@@ -244,7 +259,7 @@ var options = [
     },
   },
   {
-    text: "Remove All",
+    text: "Remove",
     onselect: function () {
         console.log('Selected geometries are removed');
         loggingMessage('Selected geometries are removed');

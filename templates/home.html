@@ -56,29 +56,29 @@ Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOi
         selectionIndicator: true,
         infoBox: true,
         terrainProvider: Cesium.createWorldTerrain(),
-        // Create Arctic DEM terrain with normals.
         /*terrainProvider: new Cesium.CesiumTerrainProvider({
             url : Cesium.IonResource.fromAssetId(3956),
             requestVertexNormals : true
         }) */
       });
       //OSM buildings
-      viewer.scene.primitives.add(Cesium.createOsmBuildings());
+      //viewer.scene.primitives.add(Cesium.createOsmBuildings());
       //Bing Maps Aerial with Labels
     var layer = viewer.imageryLayers.addImageryProvider(
       new Cesium.IonImageryProvider({ assetId: 3 })
     );
-    /*//Cesium ion OSM Buildings
+    //Cesium ion OSM Buildings
     var tileset = viewer.scene.primitives.add(
       new Cesium.Cesium3DTileset({
         url: Cesium.IonResource.fromAssetId(96188),
       })
     );
-*/
-///compass
+
+
+///// Compass
     viewer.extend(Cesium.viewerCesiumNavigationMixin, {});
 
-////////////
+//////////// DataSources and Zoom
     Cesium.GeoJsonDataSource.clampToGround = true ;
     var pinBuilder = new Cesium.PinBuilder();
     Cesium.CzmlDataSource.clampToGround = true ;
@@ -101,17 +101,23 @@ viewer.selectedEntityChanged.addEventListener(function(selectedEntity) {
         //viewer.zoomTo(selectedEntity)
         viewer.selectedEntity = selectedEntity;
         selectedEntity.description =
-          '<table class="cesium-infoBox-defaultTable"><tbody>' +
-          "<tr><th>Description</th><td>" +
-          selectedEntity.description +
+          '<table class="cesium-infoBox-defaultTable" , background="/static/Cesium/Build/Cesium/Assets/Textures/bluee.png"><tbody>' +
+          //'<table bordercolor="#ff00ff">' +
+          //'<table bgcolor="#00ff00">' +
+          //'<table border="10">'+
+          "<tr><th><b>Informations</b></th><td>" +
+          "<b>ID:</b> "+ selectedEntity.id + "<br/>" + selectedEntity.description + "<br />" +
           "</td></tr>" +
-          "<tr><th>ID</th><td>" +
-          selectedEntity.id +
+          "<tr><th><b>Insitu Image</b></th><td>" +
+          '\<img\
+            width="50%"\
+            style="float:left; margin: 0 1em 1em 0;"\
+            src= "/static/Cesium/Build/Cesium/Assets/Textures/building.jpg" />\</p>'
           "</td></tr>" +
-          "<tr><th>Name</th><td>" +
-          selectedEntity.name +
-          "</td></tr>" +
+
           "</tbody></table>";
+
+
       } else {
         console.log('Unknown entity selected.');
       }
@@ -119,6 +125,87 @@ viewer.selectedEntityChanged.addEventListener(function(selectedEntity) {
     console.log('Deselected.');
   }
   });
+
+
+// Show or unshow checkbox OSM buildings
+Sandcastle.addToggleButton("Show 3D Models", true, function (checked) {
+    tileset.show = !tileset.show;
+});
+
+
+/*
+// Add a checkbox at the top.
+document.getElementById('toolbar').innerHTML =
+    '<label><input type="checkbox" id="showCheckbox" /> Show CZML</label>';
+
+var checkbox = document.getElementById('showCheckbox');
+checkbox.addEventListener('change', function() {
+    // Checkbox state changed.
+    if (checkbox.checked) {
+        // Show if not shown.
+        if (!viewer.dataSources.contains(dataSource2)) {
+            viewer.dataSources.add(dataSource2);
+        }
+    } else {
+        // Hide if currently shown.
+        if (viewer.dataSources.contains(dataSource2)) {
+            viewer.dataSources.remove(dataSource2);
+        }
+    }
+}, false);
+*/
+
+
+/*
+  //mouse üzeri lat long
+var scene = viewer.scene;
+if (!scene.pickPositionSupported) {
+  window.alert("This browser does not support pickPosition.");
+}
+
+    var entity = viewer.entities.add({
+      label: {
+        show: true,
+        showBackground: true,
+        font: "14px monospace",
+        horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
+        verticalOrigin: Cesium.VerticalOrigin.TOP,
+        pixelOffset: new Cesium.Cartesian2(15, 0),
+        heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+        clampToGround: true,
+      },
+    });
+
+    // Mouse over the globe to see the cartographic position
+    handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+    handler.setInputAction(function (movement) {
+      var cartesian = viewer.camera.pickEllipsoid(
+        movement.endPosition,
+        scene.globe.ellipsoid
+      );
+      if (cartesian) {
+        var cartographic = Cesium.Cartographic.fromCartesian(cartesian);
+        var longitudeString = Cesium.Math.toDegrees(
+          cartographic.longitude
+        ).toFixed(2);
+        var latitudeString = Cesium.Math.toDegrees(
+          cartographic.latitude
+        ).toFixed(2);
+
+        entity.position = cartesian;
+        entity.label.show = true;
+        entity.label.text =
+          "Lon: " +
+          ("   " + longitudeString).slice(-7) +
+          "\u00B0" +
+          "\nLat: " +
+          ("   " + latitudeString).slice(-7) +
+          "\u00B0";
+      } else {
+        entity.label.show = false;
+      }
+    }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+*/
 
 
     </script>
