@@ -2,6 +2,7 @@ import django_tables2 as tables
 from django.shortcuts import render
 from django_tables2 import SingleTableView
 from .models import Asset
+from .models import Point
 from .forms import AssetForm
 from django.shortcuts import render,redirect
 
@@ -14,6 +15,13 @@ class AssetTable(tables.Table):
         attrs = {'class':'table table-striped table-hover'}
         model = Asset
         fields = ("type","name","lc_phase")
+
+class PointTable(tables.Table):
+    class Meta :
+        attrs = {'class':'table table-striped table-hover'}
+        model = Point
+        fields = ("type","name","lc_phase")
+     
 
 
 
