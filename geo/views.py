@@ -46,8 +46,8 @@ def czmlPoint(request):
 
         rgb = ImageColor.getcolor(i.markercolor, "RGB")
         L1=list(rgb)
-        if i.lc_phase.name == "Maintenance":
-            L1.append(190)
+        if i.lc_phase.name == "Bakımda":
+            L1.append(175)
         else:
             L1.append(255)
         
@@ -72,7 +72,7 @@ def czmlPoint(request):
         lab.text = i.lc_phase.name
         lab.heightReference = "CLAMP_TO_GROUND"
         lab.clampToGround = True
-        lab.pixelOffset = {"cartesian2" : [20,-50] }
+        lab.pixelOffset = {"cartesian2" : [20,-35] }
         lab.horizontalOrigin = "LEFT"
         lab.showBackground = True
         lab.backgroundColor = {'rgba': rgb2}

@@ -79,7 +79,8 @@ class Asset(models.Model):
     name = models.CharField(max_length=30)
 
     #city = models.CharField(max_length=255)
-    geom = LocationField(zoom=13, default=Point(32.733820,39.865586), verbose_name='Location')
+    geom = models.GeometryField()
+    #geom = LocationField(zoom=13, default=Point(32.733820,39.865586), verbose_name='Location')
     elevation = models.IntegerField(null=True, blank=True)
 
     lat = models.FloatField(null=True, blank=True)
@@ -120,7 +121,7 @@ class Point(models.Model):
 
     photo = models.ImageField(blank=True, null=True, upload_to='asset_photo/')
     symbol = models.FilePathField(path='crt_ast/static/Cesium/Build/Cesium/Assets/Textures/maki/', null=True, blank=True)
-    markersize= models.FloatField(null=True, blank=True, default=1.0)
+    markersize= models.FloatField(null=True, blank=True, default=0.5)
     COLOR_CHOICES = [
         ("#FFFFFF", "white"),
         ("#000000", "black"),
@@ -129,7 +130,8 @@ class Point(models.Model):
         ("#FF0000", "red"),
         ("#0000FF", "blue"),
         ("#008000", "green"),
-        ("#FFC0CB", "pink"),
+        ("#FFA500", "orange"),
+        ("#D4F1F9", "water"),
     ]
     markercolor = ColorField(format="hex", null=True, choices=COLOR_CHOICES, blank=True, default="#FFFFFF")
 
