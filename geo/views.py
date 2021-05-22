@@ -7,13 +7,14 @@ from geojson import Feature, Point, FeatureCollection, GeometryCollection
 from django.template import loader
 
 
-from crt_ast.models import Asset, Point
+from crt_ast.models import Asset, Point, AssetType
 from django.core.serializers import serialize
 
 from geo.czmledit import czml
-from PIL import ImageColor
-
+from PIL import ImageColor, Image
 from geo.coordConvert import geodetic_to_geocentric
+from Asset_Life_Cycle.models import LifeCyclePhase
+#import random
 
 def czmlPoint(request):
 
@@ -25,10 +26,12 @@ def czmlPoint(request):
     #billboard
     for i in Point.objects.all():
 
-        packet2 = czml.CZMLPacket(id='bb_'+ str(i), name=i.name, status=i.status)
+        packet2 = czml.CZMLPacket(id='bb_'+ "2021" + str(100 + i.id), name=i.name, status=i.lc_phase.name)
 
         descri = czml.Description()
-        descri.string = i.description
+        descri.string = "<b>Type: </b> " + i.type.name + "<br/>" + "<b>Description: </b> " + i.description + " <a href='http://geomatik.hacettepe.edu.tr/' target='_blank'>(Web Sitesi)</a>" + "<br/>" + "<b>Status: </b> " + i.lc_phase.name + "<br/>" + "<b>Task: </b> " +  str(i.lc_phase.description)
+
+
         packet2.description = descri
 
         bb = czml.Billboard(scale=i.markersize, show=True)
@@ -37,14 +40,14 @@ def czmlPoint(request):
         a = a[-1]
 
 
-        bb.image ="/static/Cesium/Build/Cesium/Assets/Textures/maki/" + a , #print("pinBuilder.fromMakiIconId('hospital', Cesium.Color.RED, 48)")  # 
+        bb.image ="/static/Cesium/Build/Cesium/Assets/Textures/maki/" + a ,
         bb.heightReference = "CLAMP_TO_GROUND"
         bb.clampToGround = True
 
         rgb = ImageColor.getcolor(i.markercolor, "RGB")
         L1=list(rgb)
-        if i.status == "Inactive":
-            L1.append(127)
+        if i.lc_phase.name == "Maintenance":
+            L1.append(190)
         else:
             L1.append(255)
         
@@ -60,8 +63,27 @@ def czmlPoint(request):
 
         packet2.position = poz
 
+        
+        rgb2 = ImageColor.getcolor(i.lc_phase.color, "RGBA")
+
+        lab = czml.Label()
+        lab.show = True
+        #lab.fillColor = {'rgba': rgb2}
+        lab.text = i.lc_phase.name
+        lab.heightReference = "CLAMP_TO_GROUND"
+        lab.clampToGround = True
+        lab.pixelOffset = {"cartesian2" : [20,-50] }
+        lab.horizontalOrigin = "LEFT"
+        lab.showBackground = True
+        lab.backgroundColor = {'rgba': rgb2}
+
+        packet2.label = lab
+
         doc1.packets.append(packet2)
 
+        #photo kısmını kaydetmek için
+        #img = i.photo
+        #img.save('../static/Cesium/Build/Cesium/Assets/Textures/maki/' + str(i.id) +".png" , 'PNG')
 
     myczml= doc1.dumps()
 
