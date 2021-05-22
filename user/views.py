@@ -8,6 +8,8 @@ from .forms import TaskForm
 from Task.models import Task
 from crt_ast.views import AssetTable
 from Task.views import TaskTable
+from crt_ast.views import PointTable
+from crt_ast.models import Point
 
 
 
@@ -107,6 +109,7 @@ class userDashboard(ListView):
         context = super().get_context_data(**kwargs)
         context["table_assets"] = AssetTable(Asset.objects.all())
         context["table_tasks"] = TaskTable(Task.objects.all())
+        context["table_points"] = PointTable(Point.objects.all())
         return context
     
     
