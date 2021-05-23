@@ -13,26 +13,36 @@
 {% block content %}
 
 
+
+
+
+
+
+
+
+
+
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-md-2">
+		<div class="col-md-3">
 			<div class="row">
-				<div class="col-lg-12" style="width: 125px; height: 500px; overflow-y: scroll;">
+				<div class="col-lg-12" style="width: 125px; height: 400px; overflow-y: scroll;">
           <h1> Asset Table</h1>
           {% render_table table_points %}
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-lg-12" style="width: 125px; height: 500px; overflow-y: scroll;">
+				<div class="col-lg-12" style="width: 125px; height: 300px; overflow-y: scroll;">
           <h1> Task Table</h1>
           {% render_table table_tasks %}
 				</div>
 			</div>
 		</div>
-		<div class="col-lg-10" id="cesiumContainer">
+		<div class="col-lg-9" id="cesiumContainer">
 
 	</div>
 </div>
+
 
 
 
@@ -67,44 +77,44 @@
 
 
 -->
+<script src="/static/Cesium/Build/Cesium/Cesium.js"></script>
+<script src="/static/Cesium/Apps/Sandcastle/Sandcastle-header.js"></script>
+    
+    <script>
+        Cesium.defineProperties = Object.defineProperties;
+    </script>
+    <script src="/static/navigation/viewerCesiumNavigationMixin.min.js"></script>
 
+    <style>
+      @import url(/static/Cesium/Build/Cesium/Widgets/widgets.css);
+      #cesiumContainer {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding-left: 0;
+        overflow: hidden;
+      }
+      #toolbar {
+        position: absolute;
+        top: 130px;
+        left: 470px;
+        display: inline;
+        margin: 10px;
+        padding: 0px;
+        background: green;
+        }
 
-    <title>Geospatial Asset Management</title>
-    <script src="/static/Cesium/Build/Cesium/Cesium.js"></script>
-    <script src="/static/Cesium/Apps/Sandcastle/Sandcastle-header.js"></script>
-        
-        <script>
-            Cesium.defineProperties = Object.defineProperties;
-        </script>
-        <script src="/static/navigation/viewerCesiumNavigationMixin.min.js"></script>
-
-        <style>
-          @import url(/static/Cesium/Build/Cesium/Widgets/widgets.css);
-          #cesiumContainer {
-            width: 70%;
-            height: 90%;
-            margin: 0;
-            padding-left: 0;
-            overflow: hidden;
-          }
-          #toolbar {
-            position: fixed;
-            top: -180px;
-            left: 0;
-            display: inline;
-            margin: 330px;
-            padding: 0px;
-            background: green;
-            }
-
-        </style>
-     
       
-        <div id="cesiumContainer"></div>
-        <div id="toolbar"></div>
-        <script>
+
+    </style>
+ 
+  
+    <div id="cesiumContainer"></div>
+    <div id="toolbar"></div>
+    <script>
 
 Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhMjUyNmU3Zi00ZDQ2LTQzMjctYTg4Mi04NjMxNTM0YzI4NmQiLCJpZCI6NDYyODQsImlhdCI6MTYyMDA2MDYxMn0.jKoTW8L_JSbuxICTm2zQEXjgbILBko_imKbfvDxkIms";
+
 
       var viewer = new Cesium.Viewer("cesiumContainer", {
         sceneMode: Cesium.SceneMode.SCENE3D,
@@ -182,12 +192,18 @@ viewer.selectedEntityChanged.addEventListener(function(selectedEntity) {
   } else {
     console.log('Deselected.');
   }
+
+  
+
+  
   });
 
 
 // Show or unshow checkbox OSM buildings
+
 Sandcastle.addToggleButton("Show 3D Models", true, function (checked) {
     tileset.show = !tileset.show;
+    
 });
 
 
