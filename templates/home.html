@@ -97,11 +97,12 @@ Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOi
 viewer.selectedEntityChanged.addEventListener(function(selectedEntity) {
   if (Cesium.defined(selectedEntity)) {
       if (Cesium.defined(selectedEntity.name)) {
-        console.log('Selected ' + selectedEntity.status);
+        console.log('Selected ' + selectedEntity.name);
         //viewer.zoomTo(selectedEntity)
         viewer.selectedEntity = selectedEntity;
         selectedEntity.description =
-          '<table class="cesium-infoBox-defaultTable" , background="/static/Cesium/Build/Cesium/Assets/Textures/bluee.png"><tbody>' +
+          '<table class="cesium-infoBox-defaultTable"><tbody>' +
+          //background="/static/Cesium/Build/Cesium/Assets/Textures/bluee.png"
           //'<table bordercolor="#ff00ff">' +
           //'<table bgcolor="#00ff00">' +
           //'<table border="10">'+

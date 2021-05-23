@@ -14,6 +14,7 @@ from geo.czmledit import czml
 from PIL import ImageColor, Image
 from geo.coordConvert import geodetic_to_geocentric
 from Asset_Life_Cycle.models import LifeCyclePhase
+from Task.models import Task
 #import random
 
 def czmlPoint(request):
@@ -29,7 +30,9 @@ def czmlPoint(request):
         packet2 = czml.CZMLPacket(id='bb_'+ "2021" + str(100 + i.id), name=i.name, status=i.lc_phase.name)
 
         descri = czml.Description()
-        descri.string = "<b>Type: </b> " + i.type.name + "<br/>" + "<b>Description: </b> " + i.description + " <a href='http://geomatik.hacettepe.edu.tr/' target='_blank'>(Web Sitesi)</a>" + "<br/>" + "<b>Status: </b> " + i.lc_phase.name + "<br/>" + "<b>Task: </b> " +  str(i.lc_phase.description)
+
+        for j in Task.objects.all():
+            descri.string = "<b>Type: </b> " + i.type.name + "<br/>" + "<b>Description: </b> " + i.description + " <a href='http://geomatik.hacettepe.edu.tr/' target='_blank'>(Web Sitesi)</a>" + "<br/>" + "<b>Status: </b> " + i.lc_phase.name + "<br/>" + "<b>Task: </b> " +  str(j.name)
 
 
         packet2.description = descri
