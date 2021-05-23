@@ -73,6 +73,7 @@ post_save.connect(create_user_profile, sender=User)
 #User._meta.get_field('email').blank = False
 #User._meta.get_field('email').null = False
 
+
 class Asset(models.Model):
     type = models.ForeignKey(AssetType, on_delete=models.CASCADE)
     lc_phase = models.ForeignKey("Asset_Life_Cycle.LifeCyclePhase", on_delete=models.CASCADE, verbose_name='Life Cycle Phase')
@@ -108,7 +109,7 @@ class Asset(models.Model):
 
 class Point(models.Model):
     type = models.ForeignKey(AssetType, on_delete=models.CASCADE)
-    lc_phase = models.ForeignKey("Asset_Life_Cycle.LifeCyclePhase", on_delete=models.CASCADE)
+    lc_phase = models.ForeignKey("Asset_Life_Cycle.LifeCyclePhase", on_delete=models.CASCADE, verbose_name='Life Cycle Phase')
     name = models.CharField(max_length=30)
     description = models.CharField(max_length=256, null=True, blank=True)
     # BaseSpatialField.srid()
