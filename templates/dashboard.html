@@ -13,84 +13,30 @@
 {% block content %}
 
 
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-2">
+			<div class="row">
+				<div class="col-lg-12" style="width: 125px; height: 500px; overflow-y: scroll;">
+          <h1> Asset Table</h1>
+          {% render_table table_points %}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12" style="width: 125px; height: 500px; overflow-y: scroll;">
+          <h1> Task Table</h1>
+          {% render_table table_tasks %}
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-10" id="cesiumContainer">
+
+	</div>
+</div>
 
 
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <!-- Use correct character set. -->
-    <meta charset="utf-8" />
-    <!-- Tell IE to use the latest, best version. -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <!-- Make the application on mobile take up the full browser screen and disable user scaling. -->
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"
-    />
 
-
-
-
-<style>
-
-
-#table-wrapper {
-  position:relative;
-}
-#table-scroll {
-  height:380px;
-  overflow:auto;  
-  margin-top:20px;
-}
-#table-wrapper table {
-  width:20%;
-
-}
-#table-wrapper table * {
-  background:#F2F4FA;
-  color:black;
-}
-#table-wrapper table thead th .text {
-  position:absolute;   
-  top:-20px;
-  z-index:2;
-  height:20px;
-  width:35%;
-  border:1px solid red;
-}
-
-</style>
-
-
-    <div class="container-fluid">
-    	<div class="row">
-    		<div class="col-md-2">
-    			<div class="row">
-    				<div class="col-lg-12">
-            <div id="table-wrapper">
-              <div id="table-scroll">
-              <h1> Asset Table</h1>
-              {% render_table table_points %}
-    				</div>
-    			</div>
-          </div>
-        </div>
-    			<div class="row">
-    				<div class="col-lg-12">
-            <div id="table-wrapper">
-              <div id="table-scroll">
-              <h1> Task Table</h1>
-              {% render_table table_tasks %}
-            </div>
-          </div>
-    				</div>
-    			</div>
-    		</div>
-    		<div class="col-lg-10" id="cesiumContainer">
-
-    	</div>
-    </div>
 
 
 
