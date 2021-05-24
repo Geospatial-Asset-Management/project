@@ -7,7 +7,7 @@ from geojson import Feature, Point, FeatureCollection, GeometryCollection
 from django.template import loader
 
 
-from crt_ast.models import Asset, Point, AssetType
+from crt_ast.models import Asset, Point, AssetType, polygonn
 from django.core.serializers import serialize
 
 from geo.czmledit import czml
@@ -32,7 +32,7 @@ def czmlPoint(request):
         descri = czml.Description()
 
         for j in Task.objects.all():
-            descri.string = "<b>Type: </b> " + i.type.name + "<br/>" + "<b>Description: </b> " + i.description + " <a href='http://geomatik.hacettepe.edu.tr/' target='_blank'>(Web Sitesi)</a>" + "<br/>" + "<b>Status: </b> " + i.lc_phase.name + "<br/>" + "<b>Task: </b> " +  str(j.name)
+            descri.string = "<b>Type: </b> " + i.type.name + "<br/>" + "<b>Description: </b> " + i.description + " <a href='http://geomatik.hacettepe.edu.tr/' target='_blank'>(Web Sitesi)</a>" + "<br/>" + "<b>Status: </b> " + i.lc_phase.name + "<br/>" + "<b>Task: </b> " +  str(j.description)
 
 
         packet2.description = descri
@@ -93,6 +93,57 @@ def czmlPoint(request):
     return HttpResponse(str(myczml))
 
     #return HttpResponse('[ { "id": "document", "name": "CZML Points", "version": "1.0", }, '+ str(points) + "]")
+
+def czmlPolygon():
+    doc1 = czml.CZML()
+
+    packet1 = czml.CZMLPacket(id='document',name="billboards",version='1.0')
+    doc2.packets.append(packet1)
+
+    for i in polygonn.objects.all():
+
+        packet2 = czml.CZMLPacket(id='po_'+ "2021" + str(100 + i.id), name=i.name)
+
+        descri = czml.Description()
+
+
+        descri.string = i.description
+
+        packet2.description = descri
+
+        po = czml.Polygon(show=True)
+
+        po.heightReference = "CLAMP_TO_GROUND"
+        po.clampToGround = True
+
+        rgb = ImageColor.getcolor(i.markercolor, "RGB")
+        L1=list(rgb)
+        if i.lc_phase.name == "Bakımda":
+            L1.append(175)
+        else:
+            L1.append(180)
+        
+        rgb=tuple(L1)
+
+        mater = czml.Material(solidColor= rgb) 
+        po.material = mater
+
+        poz = czml.Positions()
+        WGS84 = 6378137, 298.257223563
+        poz.cartesian = geodetic_to_geocentric(WGS84, i.lat, i.lon, i.height)
+        po.positions = poz
+
+        packet2.polygon = po
+
+        doc1.packets.append(packet2)
+
+
+    myczml= doc1.dumps()
+
+    return HttpResponse(str(myczml))
+
+    
+
 
 def cesiumAsset(request):
     geojs = serialize('geojson', Asset.objects.all(),

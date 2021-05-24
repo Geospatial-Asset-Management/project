@@ -1118,6 +1118,10 @@ class Polygon(_DateTimeAware, _CZMLBaseObject):
     closeTop = None
     closeBottom = None
 
+    name = None
+    heightReference = None
+    clampToGround = True
+
     _height = None
     height = class_property(Number, 'height')
 
@@ -1145,7 +1149,7 @@ class Polygon(_DateTimeAware, _CZMLBaseObject):
     _properties = ('show', 'fill', 'height', 'outline', 'stRotation',
                    'granularity', 'extrudedHeight', 'perPositionHeight',
                    'outlineColor', 'outlineWidth', 'material', 'positions',
-                   'closeTop', 'closeBottom')
+                   'closeTop', 'closeBottom', 'heightReference', 'clampToGround', 'name')
 
 
 class Ellipse(_DateTimeAware, _CZMLBaseObject):

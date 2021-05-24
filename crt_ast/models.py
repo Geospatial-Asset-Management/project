@@ -112,7 +112,7 @@ class Point(models.Model):
     lc_phase = models.ForeignKey("Asset_Life_Cycle.LifeCyclePhase", on_delete=models.CASCADE, verbose_name='Life Cycle Phase')
     name = models.CharField(max_length=30)
     description = models.CharField(max_length=256, null=True, blank=True)
-    # BaseSpatialField.srid()
+
     lat = models.FloatField(null=True, blank=True)
     lon = models.FloatField(null=True, blank=True)
     height = models.FloatField(null=True, blank=True)
@@ -140,21 +140,12 @@ class Point(models.Model):
     def __str__(self, *args, **kwargs):
         return "{}, Type: {}".format(self.name, self.type.name)
 
-class AssetPropertyValue(models.Model):
-    property = models.ForeignKey(AssetTypeProperty, on_delete=models.CASCADE)
-    asset = models.ForeignKey(Asset, on_delete=models.CASCADE)
-    value = models.CharField(max_length=256)
-    description = models.CharField(max_length=256, null=True, blank=True)
-
-    def __str__(self, *args, **kwargs):
-        return "Type: {}, Property: {}, Value: {}".format(self.asset.name, self.property.name, self.value)
-
 class polygonn(models.Model):
     type = models.ForeignKey(AssetType, on_delete=models.CASCADE)
     lc_phase = models.ForeignKey("Asset_Life_Cycle.LifeCyclePhase", on_delete=models.CASCADE, verbose_name='Life Cycle Phase')
     name = models.CharField(max_length=30)
     description = models.CharField(max_length=256, null=True, blank=True)
-    # BaseSpatialField.srid()
+
     geo = models.CharField(max_length=500)
     lat = models.FloatField(null=True, blank=True)
     lon = models.FloatField(null=True, blank=True)
@@ -172,6 +163,16 @@ class polygonn(models.Model):
         ("#D4F1F9", "water"),
     ]
     color = ColorField(format="hex", null=True, choices=COLOR_CHOICES, blank=True, default="#FFFFFF")
+
+
+class AssetPropertyValue(models.Model):
+    property = models.ForeignKey(AssetTypeProperty, on_delete=models.CASCADE)
+    asset = models.ForeignKey(Asset, on_delete=models.CASCADE)
+    value = models.CharField(max_length=256)
+    description = models.CharField(max_length=256, null=True, blank=True)
+
+    def __str__(self, *args, **kwargs):
+        return "Type: {}, Property: {}, Value: {}".format(self.asset.name, self.property.name, self.value)
 
 
     def __str__(self, *args, **kwargs):
