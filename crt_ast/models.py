@@ -148,3 +148,31 @@ class AssetPropertyValue(models.Model):
 
     def __str__(self, *args, **kwargs):
         return "Type: {}, Property: {}, Value: {}".format(self.asset.name, self.property.name, self.value)
+
+class polygonn(models.Model):
+    type = models.ForeignKey(AssetType, on_delete=models.CASCADE)
+    lc_phase = models.ForeignKey("Asset_Life_Cycle.LifeCyclePhase", on_delete=models.CASCADE, verbose_name='Life Cycle Phase')
+    name = models.CharField(max_length=30)
+    description = models.CharField(max_length=256, null=True, blank=True)
+    # BaseSpatialField.srid()
+    geo = models.CharField(max_length=500)
+    lat = models.FloatField(null=True, blank=True)
+    lon = models.FloatField(null=True, blank=True)
+    height = models.FloatField(null=True, blank=True)
+
+    COLOR_CHOICES = [
+        ("#FFFFFF", "white"),
+        ("#000000", "black"),
+        ("#808080", "grey"),
+        ("#FFFF00", "yellow"),
+        ("#FF0000", "red"),
+        ("#0000FF", "blue"),
+        ("#008000", "green"),
+        ("#FFA500", "orange"),
+        ("#D4F1F9", "water"),
+    ]
+    color = ColorField(format="hex", null=True, choices=COLOR_CHOICES, blank=True, default="#FFFFFF")
+
+
+    def __str__(self, *args, **kwargs):
+        return "{}, Type: {}".format(self.name, self.type.name)
