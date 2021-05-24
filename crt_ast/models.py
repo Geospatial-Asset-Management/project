@@ -132,7 +132,7 @@ class Point(models.Model):
         ("#0000FF", "blue"),
         ("#008000", "green"),
         ("#FFA500", "orange"),
-        ("#D4F1F9", "water"),
+        ("#87CEEB", "light blue"),
     ]
     markercolor = ColorField(format="hex", null=True, choices=COLOR_CHOICES, blank=True, default="#FFFFFF")
 
@@ -152,15 +152,15 @@ class polygonn(models.Model):
     height = models.FloatField(null=True, blank=True)
 
     COLOR_CHOICES = [
-        ("#FFFFFF", "white"),
-        ("#000000", "black"),
-        ("#808080", "grey"),
-        ("#FFFF00", "yellow"),
-        ("#FF0000", "red"),
-        ("#0000FF", "blue"),
-        ("#008000", "green"),
-        ("#FFA500", "orange"),
-        ("#D4F1F9", "water"),
+        ("#FFFFFF90", "white"),
+        ("#00000090", "black"),
+        ("#80808090", "grey"),
+        ("#FFFF0090", "yellow"),
+        ("#FF000090", "red"),
+        ("#0000FF90", "blue"),
+        ("#00800090", "green"),
+        ("#FFA50090", "orange"),
+        ("#87CEEB", "light blue"),
     ]
     color = ColorField(format="hex", null=True, choices=COLOR_CHOICES, blank=True, default="#FFFFFF")
 

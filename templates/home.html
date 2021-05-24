@@ -47,7 +47,7 @@
     <div id="toolbar"></div>
     <script>
 
-Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhMjUyNmU3Zi00ZDQ2LTQzMjctYTg4Mi04NjMxNTM0YzI4NmQiLCJpZCI6NDYyODQsImlhdCI6MTYyMDA2MDYxMn0.jKoTW8L_JSbuxICTm2zQEXjgbILBko_imKbfvDxkIms";
+Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI1ZTkwNjBhNy1lODcxLTQ4MTUtYjRkYy1kMWY4ZGI3YjJmODQiLCJpZCI6NDYyODQsImlhdCI6MTYyMDA2NzQ0N30.er2z9qfFdL1JjnEbB_KnUlDvBbN0zVBo54EuMfFxgZQ";
 
       var viewer = new Cesium.Viewer("cesiumContainer", {
         sceneMode: Cesium.SceneMode.SCENE3D,
@@ -132,6 +132,87 @@ viewer.selectedEntityChanged.addEventListener(function(selectedEntity) {
 Sandcastle.addToggleButton("Show 3D Models", true, function (checked) {
     tileset.show = !tileset.show;
 });
+
+////czml polygon and line examples
+var czml = [
+  {
+    id: "document",
+    name: "CZML Geometries: Polygon",
+    version: "1.0",
+  },
+  {
+    id: "redPolygon",
+    name: "Red polygon on surface",
+    polygon: {
+      positions: {
+        cartesian: [
+4113127.0292841014, 2657873.2148255697, 4072682.3245357866,4113305.110598453, 2657733.737740713, 4072594.0863217274, 4113272.539255857, 2657613.4999342794, 4072704.7003353923,4113207.104055975, 2657668.569127864, 4072734.6494810353,4113735.8759630397, 2658268.430490682, 4073279.117980284,4113839.5546627855, 2658176.618927468, 4073254.4437911063,4113914.3621157226, 2658126.071705714, 4073221.7807245227,4113904.587872582, 2658031.0360425985, 4073329.743683564,4113808.359633487, 2658096.499463111, 4073359.7648096024,4113808.359633487, 2658096.499463111, 4073359.7648096024,
+        ],
+      },
+      material: {
+        solidColor: {
+          color: {
+            rgba: [255, 165, 0, 150],
+          },
+        },
+      },
+    },
+  },
+  {
+    id: "waterPolygon",
+    name: "Red polygon on surface",
+    polygon: {
+      positions: {
+        cartesian: [
+4113483.67197111, 2658494.849825295, 4071921.4482213375,4113567.6934871976, 2658470.8761198735, 4071852.683078921,4113648.408446208, 2658351.9666227405, 4071848.7996433973,4113627.3095589704, 2658293.9887028225, 4071907.569679185,4113527.4817276313, 2658350.5227286317, 4071971.0826287065,4113466.8883641656, 2658449.752718201, 4071967.535196366,4114068.063171901, 2658838.2797350306, 4072566.655698459
+        ],
+      },
+      material: {
+        solidColor: {
+          color: {
+            rgba: [135, 206, 235, 150],
+          },
+        },
+      },
+    },
+  },
+];
+
+var czml2 = [
+  {
+    id: "document",
+    name: "CZML Geometries: Polyline",
+    version: "1.0",
+  },
+  {
+    id: "orangeLine",
+    name:
+      "Orange line with black outline at height and following the surface",
+    polyline: {
+      positions: {
+        cartesian: [4113824.490655332, 2658840.3190359254, 4072804.434478188,4113827.896222748, 2658868.1088935398, 4072785.5780392922,4113826.47850891, 2658894.75548934, 4072771.511687446,4113826.883557006, 2658915.963296556, 4072758.867029215,4113792.9305738243, 2658939.096118012, 4072779.598569657,4113773.297592499, 2658947.5558593166, 4072794.3796237684,4113759.794463909, 2658962.919628774, 4072799.5952776847,4113744.5978045254, 2658973.706286433, 4072807.8216800587,4113705.743869968, 2659001.547971552, 4072827.8452033806,4113687.2514893576, 2659010.0929851276, 4072840.0855841236,4113656.643454759, 2659026.422657068, 4072862.3958246224,4113635.5835108347, 2659045.8232985795, 4072872.8794734282,4113585.4260748173, 2659081.642519647, 4072902.106262375,4113566.5427235407, 2659095.9078901066, 4072912.457001989,4113562.05934661, 2659105.7508716197, 4072911.5585345104,4113570.1696976586, 2659110.530668154, 4072900.2739248867,4113570.157568581, 2659110.5601012413, 4072900.292239665],
+      },
+      material: {
+        polylineOutline: {
+          color: {
+            rgba: [255, 165, 0, 255],
+          },
+          outlineColor: {
+            rgba: [0, 0, 0, 255],
+          },
+          outlineWidth: 2,
+        },
+      },
+      width: 5,
+    },
+  },
+];
+
+var dataSourcePromise2 = Cesium.CzmlDataSource.load(czml2);
+viewer.dataSources.add(dataSourcePromise2);
+
+var dataSourcePromise = Cesium.CzmlDataSource.load(czml);
+viewer.dataSources.add(dataSourcePromise);
 
 
 /*

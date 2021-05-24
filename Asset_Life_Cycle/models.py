@@ -27,7 +27,7 @@ class LifeCyclePhase(models.Model):
         ("#0000FF90", "blue"),
         ("#00800090", "green"),
         ("#FFA50090", "orange"),
-        ("#D4F1F990", "water"),
+        ("#87CEEB90", "light blue"),
     ]
     color = ColorField(format="hexa", null=True, choices=COLOR_CHOICES, blank=True, default="#FFFFFFFF")
 
