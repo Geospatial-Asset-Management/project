@@ -1,6 +1,6 @@
 # project
 
-**PROJE AÇIKLAMALARI BURAYA**
+
 
 ## Required Python Libraries
 - django
